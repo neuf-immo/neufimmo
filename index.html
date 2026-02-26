@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEUF IMMO — Conciergerie Immobilière</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ══ THÈME CLAIR / SOMBRE ══ */
+:root{
+  --or:#C9A84C;--or-clair:#E8D5A3;--vert:#27ae60;--vert-wa:#25D366;--rouge:#c0392b;
+  --bg:#FDFAF5;--surface:#fff;--surface2:#F5F2EC;--noir:#0D0D0D;--noir-doux:#1A1A1A;
+  --gris:#2C2C2C;--texte:#5C5448;--bord:#E5E1DA;--bord2:#DDD;
+  --nav-bg:rgba(13,13,13,0.96);--nav-bord:rgba(201,168,76,0.18);
+  --shadow:rgba(0,0,0,.08);
+  --prm:#7c3aed;--prm2:#a855f7;--prm-bg:#0f0519;--prm-gold:#f0c040;
+}
+[data-theme="dark"]{
+  --bg:#0f0f0f;--surface:#1a1a1a;--surface2:#222;--noir:#f0ece4;--noir-doux:#e0dcd4;
+  --gris:#2e2e2e;--texte:#9a9080;--bord:#333;--bord2:#333;
+  --nav-bg:rgba(8,8,8,0.97);--nav-bord:rgba(201,168,76,0.14);
+  --shadow:rgba(0,0,0,.3);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--noir);overflow-x:hidden;transition:background .3s,color .3s}
+
+/* ══ NAV ══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
+  justify-content:space-between;padding:1rem 3rem;
+  background:var(--nav-bg);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--nav-bord);transition:padding .3s}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;
+  letter-spacing:.14em;color:var(--or);text-decoration:none;text-transform:uppercase}
+.logo span{color:#fff;font-weight:300}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{font-size:.67rem;letter-spacing:.17em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--or)}
+.nav-right{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.btn-nav{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.42rem .95rem;
+  border:1px solid;cursor:pointer;transition:all .3s;font-family:'Jost',sans-serif;
+  white-space:nowrap;background:transparent}
+.btn-abo-nav{border-color:var(--vert);color:var(--vert)}
+.btn-abo-nav:hover{background:var(--vert);color:#fff}
+.btn-admin-nav{border-color:var(--or);color:var(--or)}
+.btn-admin-nav:hover{background:var(--or);color:var(--noir)}
+.btn-deco-nav{border-color:#555;color:#aaa;display:none}
+.btn-deco-nav:hover{border-color:var(--rouge);color:var(--rouge)}
+/* Toggle sombre */
+.theme-toggle{background:none;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.6);cursor:pointer;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  transition:all .3s;flex-shrink:0}
+.theme-toggle:hover{border-color:var(--or);color:var(--or)}
+.badge-nav{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.24rem .65rem;border:1px solid;display:none;align-items:center}
+.badge-admin{color:var(--or);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.28)}
+.badge-abo{color:var(--vert);background:rgba(39,174,96,.1);border-color:rgba(39,174,96,.28);cursor:pointer}
+/* Favoris nav */
+.btn-favs-nav{border-color:var(--rouge);color:var(--rouge);position:relative}
+.btn-favs-nav:hover{background:var(--rouge);color:#fff}
+.fav-count-badge{position:absolute;top:-.4rem;right:-.4rem;background:var(--rouge);color:#fff;
+  border-radius:50%;width:14px;height:14px;font-size:.5rem;display:none;
+  align-items:center;justify-content:center;font-weight:700}
+
+/* Hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.3rem;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:var(--or);transition:all .35s;transform-origin:center}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:190;
+  background:rgba(13,13,13,.98);backdrop-filter:blur(16px);
+  flex-direction:column;justify-content:center;align-items:center;gap:2rem;padding:5rem 2rem 3rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;
+  color:rgba(255,255,255,.7);text-decoration:none;transition:color .3s}
+.mobile-menu a:hover{color:var(--or)}
+.mob-btns{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
+.mob-btns button{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  padding:.58rem 1.3rem;cursor:pointer;font-family:'Jost',sans-serif;transition:all .3s;background:transparent}
+
+/* ══ BANNIERE EXPIRATION ABO ══ */
+.abo-expire-banner{display:none;background:linear-gradient(90deg,#5a1a0a,#8b2500,#5a1a0a);
+  padding:.7rem 3rem;text-align:center;font-size:.72rem;color:#ffcba4;
+  letter-spacing:.06em;border-bottom:1px solid rgba(255,100,0,.3)}
+.abo-expire-banner strong{color:#fff}
+.abo-expire-banner a{color:var(--or);text-decoration:underline;cursor:pointer;margin-left:.6rem}
+
+/* ══ HERO ══ */
+#hero{min-height:100vh;background:var(--noir-doux);display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden}
+[data-theme="dark"] #hero{background:#0a0a0a}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 60%,rgba(201,168,76,.09) 0%,transparent 60%),
+             radial-gradient(ellipse at 75% 25%,rgba(201,168,76,.06) 0%,transparent 55%)}
+.hero-lines{position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(201,168,76,.04) 80px)}
+.hero-content{position:relative;z-index:2;max-width:860px;padding:0 2rem}
+.hero-tag{font-size:.62rem;letter-spacing:.38em;text-transform:uppercase;color:var(--or);
+  margin-bottom:1.8rem;opacity:0;animation:fadeUp .8s .3s forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,8vw,7rem);
+  font-weight:300;line-height:1.05;color:#fff;margin-bottom:.4rem;
+  opacity:0;animation:fadeUp .8s .5s forwards}
+.hero-title em{font-style:italic;color:var(--or)}
+.hero-sub{font-size:.78rem;letter-spacing:.14em;color:rgba(255,255,255,.4);
+  margin-bottom:2.5rem;text-transform:uppercase;opacity:0;animation:fadeUp .8s .7s forwards}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .8s .9s forwards}
+.hero-cta{display:inline-block;padding:.9rem 2.4rem;background:var(--or);color:#0D0D0D;
+  font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+  font-family:'Jost',sans-serif;font-weight:500;transition:all .35s;border:1px solid var(--or)}
+.hero-cta:hover{background:transparent;color:var(--or)}
+.hero-cta-abo{display:inline-block;padding:.9rem 2.4rem;background:transparent;color:var(--vert);
+  font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;font-family:'Jost',sans-serif;
+  font-weight:500;transition:all .35s;border:1px solid var(--vert);cursor:pointer}
+.hero-cta-abo:hover{background:var(--vert);color:#fff}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;font-size:.57rem;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22);
+  opacity:0;animation:fadeIn 1s 1.5s forwards}
+.scroll-line{width:1px;height:34px;background:var(--or);animation:scrollPulse 2s 2s infinite}
+
+/* ══ STATS ══ */
+.stats-band{background:var(--or);display:flex;justify-content:center;
+  padding:1.5rem 4rem;gap:4rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#0D0D0D;display:block}
+.stat-label{font-size:.57rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(13,13,13,.62)}
+
+/* ══ BANNIERE ABO ══ */
+.abo-banner{background:linear-gradient(135deg,#0a2612,#1a4a28 50%,#0a2612);
+  border-top:1px solid rgba(39,174,96,.2);border-bottom:1px solid rgba(39,174,96,.2);
+  padding:1.6rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.abo-banner-left{display:flex;align-items:center;gap:1rem}
+.abo-banner-icon{font-size:1.8rem}
+.abo-banner-text h3{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:#fff;margin-bottom:.18rem}
+.abo-banner-text p{font-size:.74rem;color:rgba(255,255,255,.5);line-height:1.6}
+.abo-banner-text p strong{color:var(--vert)}
+.btn-souscrire{padding:.65rem 1.8rem;background:var(--vert);color:#fff;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.68rem;letter-spacing:.17em;text-transform:uppercase;
+  transition:opacity .25s;white-space:nowrap}
+.btn-souscrire:hover{opacity:.85}
+
+/* ══ BIENS ══ */
+#biens{padding:6rem 3rem 5rem;background:var(--bg);transition:background .3s}
+.section-eyebrow{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--or);margin-bottom:.5rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:300;color:var(--noir);line-height:1.1;transition:color .3s}
+.section-title em{font-style:italic;color:var(--texte)}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.barre-outils{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin-bottom:2rem}
+.filtres{display:flex;gap:.35rem;flex-wrap:wrap}
+.filtre-btn{padding:.35rem .9rem;border:1px solid var(--bord2);background:transparent;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--texte);transition:all .25s}
+.filtre-btn.active,.filtre-btn:hover{border-color:var(--or);background:var(--or);color:#0D0D0D}
+.sep{width:1px;height:26px;background:var(--bord2);flex-shrink:0}
+.search-wrap{position:relative;flex:1;min-width:170px;max-width:260px}
+.search-wrap input{width:100%;padding:.38rem .82rem .38rem 2rem;border:1px solid var(--bord2);
+  font-family:'Jost',sans-serif;font-size:.75rem;color:var(--noir);background:var(--surface);
+  outline:none;transition:border-color .25s}
+.search-wrap input:focus{border-color:var(--or)}
+.search-wrap svg{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);
+  width:12px;height:12px;color:#aaa;pointer-events:none}
+.tri-select{padding:.37rem .72rem;border:1px solid var(--bord2);font-family:'Jost',sans-serif;
+  font-size:.65rem;color:var(--texte);background:var(--surface);outline:none;cursor:pointer;transition:background .3s,color .3s,border-color .25s}
+.tri-select:focus{border-color:var(--or)}
+.compteur-biens{font-size:.65rem;color:var(--texte);white-space:nowrap;
+  display:flex;align-items:center;gap:.33rem}
+.compteur-dot{width:7px;height:7px;background:var(--or);border-radius:50%;animation:pulseDot 2s infinite}
+
+/* GRILLE */
+.biens-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(315px,1fr));gap:1.7rem}
+.bien-card{background:var(--surface);border:1px solid var(--bord);overflow:hidden;
+  transition:transform .3s,box-shadow .3s,background .3s,border-color .3s;cursor:pointer;position:relative}
+.bien-card:hover{transform:translateY(-4px);box-shadow:0 20px 52px var(--shadow)}
+.bien-card[data-statut="indispo"]{opacity:.52;pointer-events:none}
+.bien-img-wrap{position:relative;overflow:hidden;height:210px;background:var(--surface2)}
+.bien-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.bien-card:hover .bien-img-wrap img{transform:scale(1.05)}
+
+/* Compteur vues */
+.vues-badge{position:absolute;top:.82rem;left:.82rem;z-index:6;
+  background:rgba(0,0,0,.62);backdrop-filter:blur(4px);color:#fff;
+  font-size:.52rem;letter-spacing:.1em;padding:.22rem .6rem;
+  display:flex;align-items:center;gap:.3rem}
+.vues-badge svg{width:10px;height:10px;fill:#fff;flex-shrink:0}
+
+/* Favoris bouton */
+.fav-btn{position:absolute;top:.82rem;right:.82rem;z-index:6;
+  width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.55);
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;transition:all .25s;backdrop-filter:blur(4px)}
+.fav-btn:hover{background:rgba(192,57,43,.7);transform:scale(1.12)}
+.fav-btn.actif{background:rgba(192,57,43,.85)}
+
+/* Verrou bandeau bas */
+.lock-overlay{position:absolute;bottom:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  padding:.55rem .85rem;z-index:3;
+  background:linear-gradient(to top,rgba(0,0,0,.82),rgba(0,0,0,.5))}
+.lock-left{display:flex;align-items:center;gap:.42rem}
+.lock-icon{font-size:.95rem}
+.lock-text{font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;font-family:'Jost',sans-serif;line-height:1.4}
+.lock-cta{flex-shrink:0;font-size:.55rem;letter-spacing:.09em;text-transform:uppercase;
+  padding:.26rem .68rem;background:var(--vert);color:#fff;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;transition:opacity .2s;white-space:nowrap}
+.lock-cta:hover{opacity:.85}
+
+/* Galerie mini carte */
+.gallery-dots{position:absolute;bottom:.42rem;left:50%;transform:translateX(-50%);
+  display:flex;gap:.27rem;z-index:4}
+.g-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5);
+  cursor:pointer;transition:background .2s}
+.g-dot.active{background:#fff}
+.g-dot-locked{opacity:.3;pointer-events:none}
+.gallery-prev,.gallery-next{position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(13,13,13,.5);color:#fff;border:none;cursor:pointer;
+  width:27px;height:27px;font-size:.82rem;display:none;align-items:center;justify-content:center;
+  transition:background .2s;z-index:5}
+.gallery-prev{left:.42rem}.gallery-next{right:.42rem}
+.bien-img-wrap:hover .gallery-prev,.bien-img-wrap:hover .gallery-next{display:flex}
+.gallery-prev:hover,.gallery-next:hover{background:rgba(13,13,13,.88)}
+.bien-badge{position:absolute;top:.82rem;left:3.2rem;font-size:.52rem;
+  letter-spacing:.16em;text-transform:uppercase;padding:.24rem .62rem;font-weight:500;z-index:2}
+.badge-dispo{background:var(--or);color:#0D0D0D}
+.badge-indispo{background:#777;color:#fff}
+.badge-nouveau{background:#0D0D0D;color:var(--or)}
+.badge-date{position:absolute;bottom:.82rem;left:.82rem;font-size:.49rem;letter-spacing:.1em;
+  padding:.18rem .52rem;background:rgba(13,13,13,.7);color:rgba(255,255,255,.8);backdrop-filter:blur(4px);z-index:2}
+/* Badge "Vu récemment" */
+.badge-recent{position:absolute;bottom:.82rem;right:.82rem;font-size:.48rem;letter-spacing:.1em;
+  padding:.18rem .52rem;background:rgba(201,168,76,.85);color:#0D0D0D;z-index:2;font-weight:500}
+.card-admin-btns{position:absolute;bottom:.65rem;right:.65rem;display:none;gap:.32rem;z-index:10}
+body.admin-mode .card-admin-btns{display:flex}
+.btn-card-action{border:none;cursor:pointer;font-size:.55rem;letter-spacing:.09em;
+  text-transform:uppercase;padding:.28rem .62rem;font-family:'Jost',sans-serif;transition:opacity .2s}
+.btn-suppr-card{background:var(--rouge);color:#fff}
+.btn-edit-card{background:#0D0D0D;color:var(--or);border:1px solid var(--or)}
+.btn-card-action:hover{opacity:.8}
+.bien-body{padding:1.3rem;background:var(--surface);transition:background .3s}
+.bien-type{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-bottom:.22rem}
+.bien-nom{font-family:'Cormorant Garamond',serif;font-size:1.32rem;font-weight:400;color:var(--noir);margin-bottom:.2rem;transition:color .3s}
+.bien-lieu{font-size:.67rem;color:var(--texte);margin-bottom:.82rem;
+  display:flex;align-items:center;gap:.3rem;transition:color .3s}
+.bien-lieu::before{content:'◈';color:var(--or);font-size:.5rem}
+.prix-locked{font-family:'Cormorant Garamond',serif;font-size:1.45rem;color:#bbb;
+  display:flex;align-items:center;gap:.45rem}
+.prix-locked-label{font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--vert);cursor:pointer;text-decoration:underline;font-family:'Jost',sans-serif}
+.bien-infos{display:flex;gap:1rem;margin-bottom:.95rem;padding-top:.82rem;border-top:1px solid var(--bord)}
+.bien-info{font-size:.64rem;color:var(--texte);transition:color .3s}
+.bien-info span{display:block;color:var(--noir);font-weight:500;font-size:.76rem;transition:color .3s}
+.bien-prix-row{display:flex;align-items:center;justify-content:space-between}
+.bien-prix{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--or)}
+.bien-prix-unit{font-size:.59rem;color:var(--texte)}
+.btn-voir{font-size:.59rem;letter-spacing:.12em;text-transform:uppercase;padding:.42rem .9rem;
+  border:1px solid var(--noir);background:transparent;color:var(--noir);cursor:pointer;
+  font-family:'Jost',sans-serif;transition:all .25s}
+.btn-voir:hover{background:var(--noir);color:var(--bg)}
+
+/* ══ SECTION HISTORIQUE ══ */
+#historique{padding:3rem 3rem 2rem;background:var(--bg);border-top:1px solid var(--bord);
+  display:none;transition:background .3s}
+#historique.visible{display:block}
+.historique-grid{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.5rem}
+.historique-grid::-webkit-scrollbar{height:3px}
+.historique-grid::-webkit-scrollbar-thumb{background:var(--or);border-radius:2px}
+.histo-card{flex-shrink:0;width:180px;background:var(--surface);border:1px solid var(--bord);
+  overflow:hidden;cursor:pointer;transition:all .25s}
+.histo-card:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--shadow)}
+.histo-card img{width:100%;height:100px;object-fit:cover}
+.histo-card-body{padding:.7rem}
+.histo-nom{font-size:.75rem;font-weight:500;color:var(--noir);margin-bottom:.2rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .3s}
+.histo-prix{font-size:.68rem;color:var(--or)}
+.histo-quand{font-size:.55rem;color:#aaa;margin-top:.15rem}
+
+/* ══ FAVORIS SECTION ══ */
+#favoris-section{padding:3rem 3rem 2rem;background:var(--surface2);border-top:1px solid var(--bord);
+  display:none;transition:background .3s}
+#favoris-section.visible{display:block}
+.favs-grid{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.5rem}
+.favs-grid::-webkit-scrollbar{height:3px}
+.favs-grid::-webkit-scrollbar-thumb{background:var(--rouge);border-radius:2px}
+
+/* ══ SERVICES ══ */
+#services{background:var(--noir-doux);padding:6rem 3rem;transition:background .3s}
+[data-theme="dark"] #services{background:#111}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1px;margin-top:3rem;border:1px solid rgba(201,168,76,.14)}
+.service-item{padding:2.1rem 1.6rem;background:var(--noir-doux);transition:all .3s}
+[data-theme="dark"] .service-item{background:#111}
+.service-item:hover{background:var(--gris)}
+.service-icon{font-size:1.6rem;margin-bottom:.9rem;color:var(--or)}
+.service-nom{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:#fff;margin-bottom:.48rem}
+.service-desc{font-size:.73rem;color:rgba(255,255,255,.38);line-height:1.72}
+
+/* ══ RECHERCHE ══ */
+#recherche{padding:6rem 3rem;background:var(--surface2);transition:background .3s}
+.recherche-inner{max-width:800px;margin:2rem auto 0;background:var(--surface);padding:2.5rem;
+  border:1px solid var(--bord);transition:background .3s,border-color .3s}
+.form-row{display:flex;gap:.85rem;margin-bottom:.85rem;flex-wrap:wrap}
+.form-field{flex:1;min-width:178px;display:flex;flex-direction:column;gap:.33rem}
+.form-field.full{flex:0 0 100%}
+.form-field label{font-size:.58rem;letter-spacing:.17em;text-transform:uppercase;color:var(--texte);transition:color .3s}
+.form-field input,.form-field select,.form-field textarea{
+  padding:.65rem .92rem;border:1px solid var(--bord);background:var(--surface2);
+  font-family:'Jost',sans-serif;font-size:.79rem;color:var(--noir);outline:none;
+  transition:border-color .25s,background .3s,color .3s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--or)}
+.form-field textarea{resize:vertical;min-height:88px}
+.btn-submit{padding:.82rem 2.5rem;background:var(--noir);color:var(--bg);border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;transition:all .3s}
+.btn-submit:hover{background:var(--or);color:#0D0D0D}
+
+/* ══ CONTACT ══ */
+#contact{padding:6rem 3rem;background:var(--bg);display:flex;gap:5rem;
+  align-items:flex-start;flex-wrap:wrap;transition:background .3s}
+.contact-left,.contact-right{flex:1;min-width:255px}
+.contact-intro{font-size:.82rem;line-height:1.85;color:var(--texte);margin-top:1.2rem;max-width:345px;transition:color .3s}
+.contact-infos{margin-top:1.9rem;display:flex;flex-direction:column;gap:.95rem}
+.contact-info-item{font-size:.75rem;color:var(--texte);transition:color .3s}
+.contact-info-item strong{color:var(--noir);display:block;font-size:.58rem;letter-spacing:.17em;
+  text-transform:uppercase;margin-bottom:.16rem;transition:color .3s}
+.contact-socials{display:flex;gap:.62rem;margin-top:1.6rem;flex-wrap:wrap}
+.social-btn{display:flex;align-items:center;gap:.4rem;padding:.5rem .95rem;
+  border:1px solid var(--bord2);font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  text-decoration:none;color:var(--texte);font-family:'Jost',sans-serif;transition:all .25s}
+.social-btn:hover{border-color:var(--or);color:var(--or)}
+
+/* ══ FOOTER ══ */
+footer{background:#0D0D0D;border-top:1px solid rgba(201,168,76,.13);padding:2rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.9rem}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;
+  letter-spacing:.2em;color:var(--or);text-transform:uppercase}
+.footer-copy{font-size:.57rem;letter-spacing:.09em;color:rgba(255,255,255,.19)}
+
+/* ══ WA FLOTTANT ══ */
+.wa-float{position:fixed;bottom:1.7rem;right:1.7rem;z-index:300;width:54px;height:54px;
+  border-radius:50%;background:var(--vert-wa);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 5px 18px rgba(37,211,102,.42);text-decoration:none;
+  transition:transform .3s,box-shadow .3s;animation:waPulse 3s 3s infinite}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 9px 26px rgba(37,211,102,.6)}
+.wa-float svg{width:25px;height:25px;fill:#fff}
+.wa-tooltip{position:absolute;right:64px;background:#0D0D0D;color:#fff;font-size:.64rem;
+  letter-spacing:.08em;white-space:nowrap;padding:.36rem .78rem;pointer-events:none;
+  opacity:0;transform:translateX(8px);transition:all .3s}
+.wa-float:hover .wa-tooltip{opacity:1;transform:translateX(0)}
+
+/* ══ MODALS ══ */
+.overlay{display:none;position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(5px);
+  justify-content:center;align-items:center;padding:1.3rem}
+.overlay.open{display:flex}
+.modal{background:var(--surface);width:100%;max-width:680px;max-height:92vh;overflow-y:auto;
+  padding:2.5rem;position:relative;transition:background .3s}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.82rem;font-weight:300;
+  margin-bottom:1.6rem;padding-bottom:.82rem;border-bottom:1px solid var(--bord);color:var(--noir);transition:color .3s,border-color .3s}
+.modal-close{position:absolute;top:1.1rem;right:1.1rem;background:none;border:none;
+  font-size:1.05rem;cursor:pointer;color:var(--texte);width:27px;height:27px;
+  display:flex;align-items:center;justify-content:center;transition:color .2s}
+.modal-close:hover{color:var(--rouge)}
+.modal .form-field{margin-bottom:.82rem}
+.modal .form-field label{font-size:.58rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--texte);display:block;margin-bottom:.33rem}
+.modal .form-field input,.modal .form-field select,.modal .form-field textarea{
+  width:100%;padding:.65rem .92rem;border:1px solid var(--bord);background:var(--surface2);
+  font-family:'Jost',sans-serif;font-size:.79rem;color:var(--noir);outline:none;transition:border-color .25s,background .3s,color .3s}
+.modal .form-field input:focus,.modal .form-field select:focus,.modal .form-field textarea:focus{border-color:var(--or)}
+.modal-actions{display:flex;gap:.82rem;margin-top:1.25rem;flex-wrap:wrap}
+.btn-save{padding:.7rem 1.95rem;background:var(--or);color:#0D0D0D;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;transition:opacity .25s}
+.btn-save:hover{opacity:.85}
+.btn-save-vert{padding:.7rem 1.95rem;background:var(--vert);color:#fff;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;transition:opacity .25s}
+.btn-save-vert:hover{opacity:.85}
+.btn-cancel{padding:.7rem 1.55rem;background:none;color:var(--texte);border:1px solid var(--bord2);
+  cursor:pointer;font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;transition:color .3s,border-color .3s}
+
+/* PIN */
+#pinModal .modal{max-width:415px}
+.pin-note{font-size:.67rem;color:#888;background:var(--surface2);padding:.7rem .92rem;
+  border-left:3px solid var(--or);margin-top:.95rem;line-height:1.6}
+.lockout-msg{display:none;background:#fdf0f0;border:1px solid var(--rouge);
+  padding:.7rem .92rem;font-size:.72rem;color:var(--rouge);margin-top:.7rem;line-height:1.6}
+
+/* MODAL ABO */
+#aboModal .modal{max-width:510px}
+.abo-prix-hero{text-align:center;padding:1.4rem;background:linear-gradient(135deg,#0d2e14,#1a5228);margin-bottom:1.4rem}
+.abo-montant{font-family:'Cormorant Garamond',serif;font-size:3.3rem;font-weight:600;color:var(--vert);line-height:1}
+.abo-periode{font-size:.7rem;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.28rem}
+.abo-avantages{list-style:none;margin-bottom:1.3rem}
+.abo-avantages li{padding:.55rem 0;border-bottom:1px solid var(--bord);font-size:.8rem;
+  color:var(--texte);display:flex;align-items:flex-start;gap:.55rem;line-height:1.5;transition:color .3s,border-color .3s}
+.abo-avantages li::before{content:'✓';color:var(--vert);font-weight:700;flex-shrink:0}
+.paiement-section{background:var(--surface2);padding:1.1rem;margin-bottom:.9rem;transition:background .3s}
+.paiement-section-title{font-size:.63rem;letter-spacing:.17em;text-transform:uppercase;color:var(--texte);margin-bottom:.8rem;font-weight:500}
+.paiement-options{display:flex;gap:.55rem;flex-wrap:wrap;margin-bottom:.9rem}
+.paiement-btn{flex:1;min-width:115px;padding:.62rem .95rem;border:2px solid var(--bord2);
+  background:var(--surface);cursor:pointer;font-family:'Jost',sans-serif;font-size:.68rem;
+  letter-spacing:.09em;text-transform:uppercase;transition:all .25s;text-align:center;color:var(--texte)}
+.paiement-btn.sel{border-color:var(--vert);background:rgba(39,174,96,.06)}
+.paiement-btn:hover{border-color:var(--vert)}
+.paiement-detail{display:none;padding:.85rem;background:var(--surface);border:1px solid var(--bord);
+  font-size:.78rem;line-height:1.8;color:var(--texte);transition:background .3s,color .3s}
+.paiement-detail.vis{display:block}
+.paiement-numero{font-size:1.18rem;font-family:'Cormorant Garamond',serif;color:var(--vert);font-weight:600;letter-spacing:.04em}
+.btn-wa-preuve{display:flex;align-items:center;justify-content:center;gap:.55rem;
+  margin-top:.75rem;padding:.72rem 1.2rem;background:#25D366;color:#fff;text-decoration:none;
+  font-family:'Jost',sans-serif;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;transition:opacity .25s}
+.btn-wa-preuve:hover{opacity:.85}
+.abo-ou{text-align:center;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#bbb;margin:.65rem 0;position:relative}
+.abo-ou::before,.abo-ou::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:var(--bord)}
+.abo-ou::before{left:0}.abo-ou::after{right:0}
+.code-section{background:var(--surface);border:1px solid var(--bord);padding:.85rem;transition:background .3s,border-color .3s}
+.code-input-row{display:flex;gap:.45rem;margin-top:.65rem}
+.code-input-row input{flex:1;padding:.62rem .88rem;border:2px solid var(--bord2);
+  font-family:'Jost',sans-serif;font-size:.92rem;letter-spacing:.18em;
+  text-transform:uppercase;outline:none;text-align:center;transition:border-color .25s,background .3s;
+  background:var(--surface);color:var(--noir)}
+.code-input-row input:focus{border-color:var(--vert)}
+.btn-activer{padding:.62rem 1.2rem;background:var(--vert);color:#fff;border:none;
+  cursor:pointer;font-family:'Jost',sans-serif;font-size:.63rem;letter-spacing:.12em;
+  text-transform:uppercase;white-space:nowrap;transition:opacity .25s}
+.btn-activer:hover{opacity:.85}
+
+/* DETAIL BIEN */
+#detailModal .modal{max-width:680px}
+.detail-gallery{position:relative;width:100%;height:280px;overflow:hidden;background:var(--surface2);margin-bottom:1.3rem}
+.detail-gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.detail-gallery img.act{opacity:1}
+.detail-gallery iframe{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s;border:none;background:#000}
+.detail-gallery iframe.act{opacity:1}
+.dg-prev,.dg-next{position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(13,13,13,.55);color:#fff;border:none;cursor:pointer;
+  width:33px;height:33px;font-size:.92rem;display:flex;align-items:center;justify-content:center;z-index:5;transition:background .2s}
+.dg-prev{left:.62rem}.dg-next{right:.62rem}
+.dg-prev:hover,.dg-next:hover{background:rgba(13,13,13,.9)}
+.dg-dots{position:absolute;bottom:.62rem;left:50%;transform:translateX(-50%);display:flex;gap:.3rem;z-index:4}
+.dg-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.42);cursor:pointer;transition:background .25s}
+.dg-dot.act{background:#fff}
+.dg-dot.vdot{background:rgba(255,120,120,.55)}
+.dg-dot.vdot.act{background:#ff7070}
+.detail-lock{background:linear-gradient(135deg,#0d2e14,#1a4a28);padding:1.8rem;text-align:center;margin-bottom:1.3rem}
+.detail-lock h3{font-family:'Cormorant Garamond',serif;font-size:1.55rem;color:#fff;font-weight:300;margin-bottom:.55rem}
+.detail-lock p{font-size:.78rem;color:rgba(255,255,255,.5);margin-bottom:1.1rem;line-height:1.7}
+.dm-prix{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--or);font-weight:600}
+.detail-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin:1rem 0}
+.detail-tag{padding:.25rem .7rem;background:var(--surface2);font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--texte);transition:background .3s,color .3s}
+.detail-desc{font-size:.79rem;line-height:1.82;color:var(--texte);margin:1rem 0 1.25rem;transition:color .3s}
+.contact-actions{display:flex;flex-direction:column;gap:.65rem}
+.ca-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:.75rem 1.25rem;font-family:'Jost',sans-serif;font-size:.66rem;letter-spacing:.13em;
+  text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:opacity .25s}
+.ca-wa{background:#25D366;color:#fff}
+.ca-tg{background:#0088CC;color:#fff}
+.ca-tel{background:#0D0D0D;color:var(--or);border:1px solid var(--or)}
+.ca-share{background:var(--surface2);color:var(--texte);border:1px solid var(--bord)}
+.ca-btn:hover{opacity:.85}
+
+/* ADMIN MÉDIAS */
+.media-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.38rem;margin-top:.5rem}
+.media-item{position:relative;height:66px;background:var(--surface2);overflow:hidden;transition:background .3s}
+.media-item img,.media-item video{width:100%;height:100%;object-fit:cover}
+.media-item .rm{position:absolute;top:1px;right:1px;background:var(--rouge);color:#fff;border:none;
+  width:15px;height:15px;font-size:.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.media-add{height:66px;background:var(--surface2);border:1.5px dashed var(--bord);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:.58rem;color:#aaa;transition:all .25s;flex-direction:column;gap:.22rem}
+.media-add:hover{border-color:var(--or);color:var(--or)}
+#f-file-input{display:none}
+.video-section{margin-top:.65rem;padding:.7rem;background:var(--surface2);border:1px solid var(--bord);transition:background .3s,border-color .3s}
+.video-section label{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--texte);display:block;margin-bottom:.32rem}
+.video-section input{width:100%;padding:.58rem .82rem;border:1px solid var(--bord);
+  font-family:'Jost',sans-serif;font-size:.76rem;outline:none;transition:border-color .25s,background .3s;
+  background:var(--surface);color:var(--noir)}
+.video-section input:focus{border-color:var(--or)}
+.video-section small{font-size:.62rem;color:#aaa;margin-top:.27rem;display:block}
+.media-info{font-size:.62rem;color:#aaa;margin-top:.28rem}
+
+/* PANNEAU ABONNÉS ADMIN */
+#aboAdminModal .modal{max-width:560px}
+.abo-admin-section{margin-bottom:1.4rem}
+.abo-admin-section h3{font-size:.63rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--texte);margin-bottom:.82rem;padding-bottom:.45rem;border-bottom:1px solid var(--bord)}
+.capture-upload-zone{border:2px dashed var(--bord);padding:1.4rem;text-align:center;
+  cursor:pointer;transition:all .28s;background:var(--surface2);position:relative}
+.capture-upload-zone:hover{border-color:var(--vert)}
+.capture-upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.capture-preview{display:none;margin-top:.9rem;position:relative}
+.capture-preview img{width:100%;max-height:180px;object-fit:contain;border:1px solid var(--bord)}
+.capture-preview .rm-capture{position:absolute;top:.3rem;right:.3rem;background:var(--rouge);
+  color:#fff;border:none;width:22px;height:22px;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.code-genere{display:none;margin-top:1rem;padding:1rem;background:linear-gradient(135deg,#0d2e14,#1a4a28);text-align:center}
+.code-genere p{font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.5rem}
+.le-code{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--vert);
+  letter-spacing:.12em;cursor:pointer;transition:opacity .2s;display:block}
+.le-code:hover{opacity:.8}
+.code-genere small{font-size:.63rem;color:rgba(255,255,255,.4);margin-top:.3rem;display:block}
+.btn-wa-code{display:flex;align-items:center;justify-content:center;gap:.55rem;
+  margin-top:.75rem;padding:.72rem 1.2rem;background:#25D366;color:#fff;text-decoration:none;
+  font-family:'Jost',sans-serif;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
+  transition:opacity .25s;border:none;cursor:pointer;width:100%}
+.btn-wa-code:hover{opacity:.85}
+.codes-actifs-list{max-height:200px;overflow-y:auto;border:1px solid var(--bord)}
+.code-actif-item{display:flex;align-items:center;justify-content:space-between;
+  padding:.6rem .85rem;border-bottom:1px solid var(--surface2);font-size:.75rem}
+.code-actif-item:last-child{border-bottom:none}
+.code-actif-item .code-val{font-family:'Jost',sans-serif;font-weight:500;color:var(--noir);letter-spacing:.08em;transition:color .3s}
+.code-actif-item .code-meta{font-size:.63rem;color:#aaa}
+.code-actif-item .btn-rm-code{background:none;border:none;color:#ccc;cursor:pointer;font-size:.75rem;padding:.2rem .4rem;transition:color .2s}
+.code-actif-item .btn-rm-code:hover{color:var(--rouge)}
+.codes-vide{padding:1.2rem;text-align:center;font-size:.78rem;color:#aaa}
+.btn-admin-abo{padding:.6rem 1.3rem;background:var(--vert);color:#fff;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;
+  transition:opacity .25s;margin-left:auto;display:block;margin-top:.7rem}
+.btn-admin-abo:hover{opacity:.85}
+
+/* CONFIRM SUPPR */
+#confirmModal .modal{max-width:410px}
+.confirm-msg{font-size:.84rem;color:var(--texte);line-height:1.75;margin-bottom:1.25rem;transition:color .3s}
+.btn-suppr-confirm{padding:.7rem 1.65rem;background:var(--rouge);color:#fff;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;transition:opacity .25s}
+.btn-suppr-confirm:hover{opacity:.85}
+
+/* MODAL FAVORIS */
+#favsModal .modal{max-width:680px}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.7rem;left:50%;
+  transform:translateX(-50%) translateY(80px);z-index:700;
+  background:#0D0D0D;color:#fff;padding:.82rem 1.65rem;font-size:.72rem;
+  letter-spacing:.05em;border-left:3px solid var(--or);opacity:0;transition:all .4s;
+  white-space:nowrap;max-width:92vw}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.err{border-left-color:var(--rouge)}
+.toast.ok{border-left-color:var(--vert)}
+
+/* ANIMS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(.5);opacity:.4}}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.75)}}
+@keyframes waPulse{0%,100%{box-shadow:0 5px 18px rgba(37,211,102,.42)}
+  50%{box-shadow:0 5px 26px rgba(37,211,102,.7),0 0 0 7px rgba(37,211,102,.1)}}
+@keyframes countUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:.88rem 1.35rem}
+  .nav-links,.btn-admin-nav,.btn-abo-nav{display:none}
+  .badge-admin,.btn-deco-nav{display:none!important}
+  .hamburger{display:flex}
+  #biens,#services,#recherche,#contact,#historique,#favoris-section{padding:3.8rem 1.4rem}
+  footer,.stats-band{padding:1.35rem}
+  .stats-band{gap:1.7rem}
+  #contact{flex-direction:column;gap:2.6rem}
+  .barre-outils{flex-direction:column;align-items:stretch}
+  .search-wrap{max-width:100%}
+  .sep{display:none}
+  .wa-float{bottom:1.25rem;right:1.25rem;width:48px;height:48px}
+  .wa-tooltip{display:none}
+  .media-grid{grid-template-columns:repeat(3,1fr)}
+  .abo-banner{padding:1.2rem 1.35rem}
+}
+@media(max-width:480px){
+  .biens-grid{grid-template-columns:1fr}
+  .modal{padding:1.7rem 1.25rem}
+  .detail-gallery{height:200px}
+  .paiement-options{flex-direction:column}
+}
+/* ══ PREMIUM & CERTIFICATION ══ */
+.cert-wrap{position:absolute;top:.7rem;left:.7rem;z-index:7;display:flex;align-items:center;gap:.28rem;background:linear-gradient(135deg,rgba(15,5,25,.92),rgba(50,15,90,.92));border:1px solid rgba(168,85,247,.5);padding:.26rem .58rem;backdrop-filter:blur(6px)}
+.cert-crown{font-size:.82rem;filter:drop-shadow(0 0 5px rgba(240,192,64,.8));line-height:1}
+.cert-stars-mini{display:flex;gap:1px}
+.cstar{font-size:.52rem;color:#FFD700;filter:drop-shadow(0 0 2px rgba(255,215,0,.5))}
+.cstar.empty{color:rgba(255,255,255,.2);filter:none}
+/* Fiche détail cert */
+.detail-cert{background:linear-gradient(135deg,#0f0519,#1e0840);border:1px solid rgba(168,85,247,.3);padding:1.1rem 1.25rem;margin-bottom:1.1rem}
+.detail-cert-hd{display:flex;align-items:center;gap:.75rem;margin-bottom:.7rem}
+.detail-cert-crown{font-size:1.8rem;filter:drop-shadow(0 0 8px rgba(240,192,64,.65))}
+.detail-cert-lbl{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--prm2);margin-bottom:.25rem}
+.detail-cert-stars{display:flex;gap:3px}
+.dcstar{font-size:1.05rem;color:#FFD700;filter:drop-shadow(0 0 3px rgba(255,215,0,.5))}
+.dcstar.empty{color:rgba(255,255,255,.15);filter:none}
+.detail-crits{display:flex;flex-wrap:wrap;gap:.32rem;margin:.62rem 0}
+.crit-pill{padding:.18rem .55rem;font-size:.6rem;letter-spacing:.07em;border:1px solid rgba(168,85,247,.35);color:rgba(255,255,255,.65);font-family:'Jost',sans-serif}
+.detail-rapport{font-size:.77rem;color:rgba(255,255,255,.5);line-height:1.7;font-style:italic;margin-top:.5rem;padding-top:.5rem;border-top:1px solid rgba(168,85,247,.15)}
+/* Distance */
+.dist-row{display:flex;align-items:center;gap:.6rem;margin:.45rem 0 .8rem;flex-wrap:wrap}
+.dist-badge{display:inline-flex;align-items:center;gap:.36rem;padding:.28rem .7rem;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);font-size:.7rem;color:var(--prm2);font-family:'Jost',sans-serif}
+.dist-badge svg{width:12px;height:12px;fill:var(--prm2);flex-shrink:0}
+.btn-geo{padding:.28rem .7rem;background:none;border:1px solid var(--bord2);font-size:.62rem;color:var(--texte);cursor:pointer;font-family:'Jost',sans-serif;transition:all .22s}
+.btn-geo:hover{border-color:var(--prm2);color:var(--prm2)}
+/* Badge Premium Nav */
+.badge-premium{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;padding:.24rem .65rem;border:1px solid rgba(168,85,247,.4);color:var(--prm2);background:rgba(168,85,247,.1);display:none;align-items:center;cursor:pointer}
+/* Bannière Premium */
+.prm-banner{background:linear-gradient(135deg,#0f0519,#1a0533,#0f0519);border-top:1px solid rgba(168,85,247,.22);border-bottom:1px solid rgba(168,85,247,.22);padding:1.5rem 3rem;display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.prm-banner.vis{display:flex}
+.prm-banner-icon{font-size:1.7rem}
+.prm-banner-txt h3{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:400;color:#fff;margin-bottom:.14rem}
+.prm-banner-txt p{font-size:.72rem;color:rgba(255,255,255,.42);line-height:1.6}
+.prm-banner-txt p strong{color:var(--prm2)}
+.btn-premium{padding:.62rem 1.75rem;background:linear-gradient(135deg,var(--prm),var(--prm2));color:#fff;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:.67rem;letter-spacing:.16em;text-transform:uppercase;transition:opacity .25s;box-shadow:0 4px 14px rgba(124,58,237,.35)}
+.btn-premium:hover{opacity:.87}
+/* Hero CTA Premium */
+.hero-cta-prm{display:inline-block;padding:.9rem 2.4rem;background:linear-gradient(135deg,var(--prm),var(--prm2));color:#fff;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;font-family:'Jost',sans-serif;font-weight:500;transition:all .35s;border:1px solid transparent;cursor:pointer;box-shadow:0 4px 18px rgba(124,58,237,.35)}
+.hero-cta-prm:hover{opacity:.88}
+/* Modal Premium */
+#premiumModal .modal{max-width:540px}
+.prm-modal-hero{text-align:center;padding:1.5rem;background:linear-gradient(135deg,#0f0519,#1e0840,#0f0519);margin-bottom:1.25rem;border:1px solid rgba(168,85,247,.2)}
+.prm-crown-big{font-size:2.5rem;filter:drop-shadow(0 0 12px rgba(240,192,64,.65));margin-bottom:.38rem}
+.prm-montant{font-family:'Cormorant Garamond',serif;font-size:3.1rem;font-weight:600;color:var(--prm2);line-height:1}
+.prm-periode{font-size:.67rem;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:.22rem}
+.prm-vs{display:flex;gap:.5rem;margin-bottom:1.2rem}
+.prm-col{flex:1;padding:.82rem;border:1px solid var(--bord)}
+.prm-col-ttl{font-size:.57rem;letter-spacing:.17em;text-transform:uppercase;margin-bottom:.58rem;padding-bottom:.38rem;border-bottom:1px solid var(--bord)}
+.col-std .prm-col-ttl{color:var(--vert)}.col-prm .prm-col-ttl{color:var(--prm2)}
+.col-prm{border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.04)}
+.prm-feat{font-size:.72rem;color:var(--texte);padding:.18rem 0;display:flex;align-items:flex-start;gap:.36rem;line-height:1.45}
+.prm-feat::before{content:'✓';flex-shrink:0;margin-top:.05rem;font-size:.64rem}
+.col-std .prm-feat::before{color:var(--vert)}.col-prm .prm-feat::before{color:var(--prm2)}
+.prm-feat.exclu{color:var(--noir)}[data-theme="dark"] .prm-feat.exclu{color:#ddd}
+/* Admin cert */
+.cert-admin{margin-top:.8rem;padding:.9rem 1rem;background:linear-gradient(135deg,#0f0519,#1a0533);border:1px solid rgba(168,85,247,.25)}
+.cert-admin-ttl{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--prm2);margin-bottom:.68rem}
+.sw-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.58rem}
+.sw{position:relative;width:38px;height:20px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw-t{position:absolute;inset:0;background:#555;cursor:pointer;transition:.3s;border-radius:10px}
+.sw-t::before{content:'';position:absolute;left:3px;top:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:.3s}
+.sw input:checked+.sw-t{background:var(--prm2)}
+.sw input:checked+.sw-t::before{transform:translateX(18px)}
+.sw-lbl{font-size:.71rem;color:rgba(255,255,255,.7);font-family:'Jost',sans-serif}
+.stars-pick{display:flex;gap:.35rem;margin:.38rem 0 .62rem}
+.sp-s{font-size:1.32rem;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.18);transition:all .2s;line-height:1}
+.sp-s.on{color:#FFD700;filter:drop-shadow(0 0 4px rgba(255,215,0,.5))}
+.sp-s:hover{transform:scale(1.18)}
+.crit-grid{display:flex;flex-wrap:wrap;gap:.32rem;margin:.38rem 0}
+.crit-lbl{padding:.24rem .58rem;border:1px solid var(--bord2);font-size:.66rem;color:var(--texte);cursor:pointer;transition:all .22s;font-family:'Jost',sans-serif;display:flex;align-items:center;gap:.28rem}
+.crit-lbl input{display:none}
+.crit-lbl.on{border-color:var(--prm2);color:var(--prm2);background:rgba(168,85,247,.08)}
+.rapport-ta{width:100%;margin-top:.48rem;padding:.55rem .75rem;border:1px solid rgba(168,85,247,.3);background:rgba(168,85,247,.05);font-family:'Jost',sans-serif;font-size:.77rem;color:#ccc;outline:none;resize:vertical;min-height:62px;transition:border-color .25s;box-sizing:border-box}
+.rapport-ta:focus{border-color:var(--prm2)}
+.rapport-ta::placeholder{color:rgba(255,255,255,.28)}
+.gps-row{display:flex;gap:.42rem;margin-top:.48rem}
+.gps-in{flex:1;padding:.48rem .68rem;border:1px solid rgba(168,85,247,.3);background:rgba(168,85,247,.05);font-family:'Jost',sans-serif;font-size:.74rem;color:#ccc;outline:none;transition:border-color .25s}
+.gps-in:focus{border-color:var(--prm2)}
+.gps-in::placeholder{color:rgba(255,255,255,.28)}
+/* Suivi agents */
+#agentModal .modal{max-width:620px}
+.agent-kpis{display:flex;gap:.58rem;margin-bottom:1.05rem;flex-wrap:wrap}
+.akpi{flex:1;min-width:100px;padding:.68rem;border:1px solid var(--bord);text-align:center;background:var(--surface2)}
+.akpi-n{font-family:'Cormorant Garamond',serif;font-size:1.85rem;color:var(--or);font-weight:600;display:block}
+.akpi-l{font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;color:var(--texte)}
+.ab-table{border:1px solid var(--bord);max-height:340px;overflow-y:auto}
+.ab-table::-webkit-scrollbar{width:3px}.ab-table::-webkit-scrollbar-thumb{background:var(--or);border-radius:2px}
+.ab-row{display:flex;align-items:center;padding:.68rem 1rem;border-bottom:1px solid var(--surface2);gap:.65rem;flex-wrap:wrap}
+.ab-row:last-child{border-bottom:none}.ab-row:hover{background:var(--surface2)}
+.ab-code{font-size:.71rem;font-weight:600;color:var(--or);font-family:'Jost',sans-serif;letter-spacing:.07em;min-width:88px}
+.ab-info{flex:1;font-size:.66rem;color:var(--texte);line-height:1.55;min-width:115px}
+.ab-info b{color:var(--noir);transition:color .3s}[data-theme="dark"] .ab-info b{color:#e0dcd4}
+.pill{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .48rem;font-family:'Jost',sans-serif;white-space:nowrap}
+.pill-std{background:rgba(39,174,96,.1);color:var(--vert);border:1px solid rgba(39,174,96,.28)}
+.pill-prm{background:rgba(168,85,247,.1);color:var(--prm2);border:1px solid rgba(168,85,247,.3)}
+.pill-exp{background:rgba(192,57,43,.08);color:var(--rouge);border:1px solid rgba(192,57,43,.22)}
+.btn-wa-ab{background:var(--vert-wa);color:#fff;border:none;cursor:pointer;font-size:.57rem;letter-spacing:.09em;text-transform:uppercase;padding:.25rem .65rem;font-family:'Jost',sans-serif;transition:opacity .2s;white-space:nowrap}
+.btn-wa-ab:hover{opacity:.82}
+.ab-empty{padding:2rem;text-align:center;font-size:.82rem;color:#aaa}
+/* ══ FIN PREMIUM ══ */
+</style>
+</head>
+<body>
+
+<!-- BANNIERE EXPIRATION -->
+<div class="abo-expire-banner" id="expireBanner">
+  ⏰ Votre abonnement expire dans <strong id="expireJours">—</strong> jour(s).
+  <a onclick="openModal('aboModal')">Renouveler maintenant →</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Neuf <span>Immo</span></a>
+  <ul class="nav-links">
+    <li><a href="#biens">Nos Biens</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#recherche">Rechercher</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="badge-nav badge-abo" id="aboBadge" onclick="openModal('aboInfoModal')">⭐ Abonné</span>
+    <span class="badge-premium" id="premiumBadge" onclick="openModal('premiumInfoModal')">👑 Premium</span>
+    <span class="badge-nav badge-admin" id="adminBadge">🔐 Admin</span>
+    <button class="btn-deco-nav btn-nav" id="btnDeco" onclick="seDeconnecter()">Déconnexion</button>
+    <button class="btn-nav" id="btnGererAbo" style="border-color:var(--vert);color:var(--vert);display:none" onclick="openModal('aboAdminModal');majListeCodesActifs()">👥 Abonnés</button>
+    <button class="btn-nav" id="btnAgent" style="border-color:var(--prm2);color:var(--prm2);display:none" onclick="openModal('agentModal');chargerSuiviAbonnes()">🎯 Suivi agents</button>
+    <button class="btn-nav btn-favs-nav" id="btnFavsNav" onclick="openModal('favsModal');renderFavsModal()" title="Mes favoris">
+      ❤️ <span class="fav-count-badge" id="favCountBadge">0</span>
+    </button>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Mode sombre">🌙</button>
+    <button class="btn-abo-nav btn-nav" onclick="openModal('aboModal')">⭐ Standard — 2 500 XAF</button>
+    <button class="btn-nav" style="border-color:var(--prm2);color:var(--prm2)" onclick="openModal('premiumModal')">👑 Premium — 5 000 XAF</button>
+    <button class="btn-admin-nav btn-nav" onclick="demanderPin()">+ Ajouter un bien</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#biens" onclick="toggleMenu()">Nos Biens</a>
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#recherche" onclick="toggleMenu()">Rechercher</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <div class="mob-btns">
+    <button style="border:1px solid var(--vert);color:var(--vert)" onclick="toggleMenu();openModal('aboModal')">⭐ S'abonner — 2 500 XAF/mois</button>
+    <button style="border:1px solid var(--or);color:var(--or)" onclick="toggleMenu();demanderPin()">+ Ajouter un bien</button>
+    <button style="border:1px solid var(--rouge);color:var(--rouge)" onclick="toggleMenu();openModal('favsModal');renderFavsModal()">❤️ Favoris</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div><div class="hero-lines"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Conciergerie immobilière · Libreville, Gabon</p>
+    <h1 class="hero-title">Votre bien,<br><em>notre expertise</em></h1>
+    <p class="hero-sub">Locations de qualité · Accompagnement personnalisé · 6j/7</p>
+    <div class="hero-ctas">
+      <a href="#biens" class="hero-cta">Voir les biens</a>
+      <button class="hero-cta-abo" onclick="openModal('aboModal')">⭐ Standard — 2 500 XAF/mois</button>
+      <button class="hero-cta-prm" onclick="openModal('premiumModal')">👑 Premium — 5 000 XAF/mois</button>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>Défiler</div>
+</section>
+
+<!-- STATS avec animation -->
+<div class="stats-band">
+  <div class="stat"><span class="stat-num" id="statBiens" data-target="0">—</span><span class="stat-label">Biens disponibles</span></div>
+  <div class="stat"><span class="stat-num" id="stat98" data-target="98">—</span><span class="stat-label">% Satisfaction</span></div>
+  <div class="stat"><span class="stat-num" id="stat6" data-target="6">—</span><span class="stat-label">Ans d'expertise</span></div>
+  <div class="stat"><span class="stat-num">Lun–Sam</span><span class="stat-label">9h à 16h</span></div>
+</div>
+
+<!-- BANNIERE ABO -->
+<div class="abo-banner" id="aboBanner">
+  <div class="abo-banner-left">
+    <div class="abo-banner-icon">🔓</div>
+    <div class="abo-banner-text">
+      <h3>Débloquez toutes les annonces</h3>
+      <p>Pour <strong>2 500 XAF / mois</strong> — photos complètes, prix réels, adresse exacte et contact direct.</p>
+    </div>
+  </div>
+  <button class="btn-souscrire" onclick="openModal('aboModal')">S'abonner maintenant</button>
+</div>
+
+<!-- BANNIERE PREMIUM -->
+<div class="prm-banner" id="premiumBanner">
+  <div style="display:flex;align-items:center;gap:1rem">
+    <div class="prm-banner-icon">👑</div>
+    <div class="prm-banner-txt">
+      <h3>Accès Premium — Biens certifiés & vérifiés terrain</h3>
+      <p>Pour <strong>5 000 XAF / mois</strong> — note d'agent, rapport de visite, distance GPS, appel direct.</p>
+    </div>
+  </div>
+  <button class="btn-premium" onclick="openModal('premiumModal')">Découvrir le Premium 👑</button>
+</div>
+
+<!-- BIENS -->
+<section id="biens">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow">Nos annonces</p>
+      <h2 class="section-title">Biens <em>disponibles</em></h2>
+    </div>
+  </div>
+  <div class="barre-outils">
+    <div class="filtres">
+      <button class="filtre-btn active" onclick="filtrer('tous',this)">Tous</button>
+      <button class="filtre-btn" onclick="filtrer('chambre',this)">Chambre</button>
+      <button class="filtre-btn" onclick="filtrer('chambre_us',this)">Chambre US</button>
+      <button class="filtre-btn" onclick="filtrer('studio',this)">Studio</button>
+      <button class="filtre-btn" onclick="filtrer('maison',this)">Maison</button>
+    </div>
+    <div class="sep"></div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Rechercher…" oninput="appliquerFiltres()">
+    </div>
+    <select class="tri-select" id="triSelect" onchange="appliquerFiltres()">
+      <option value="">Trier par…</option>
+      <option value="prix-asc">Prix croissant</option>
+      <option value="prix-desc">Prix décroissant</option>
+      <option value="recent">Plus récents</option>
+      <option value="vues">Les plus vus</option>
+    </select>
+    <div class="compteur-biens">
+      <span class="compteur-dot"></span>
+      <span id="compteurTexte">—</span>
+    </div>
+  </div>
+  <div class="biens-grid" id="biens-grid"></div>
+</section>
+
+<!-- HISTORIQUE -->
+<section id="historique">
+  <p class="section-eyebrow">Récemment consultés</p>
+  <h2 class="section-title" style="margin-bottom:1.5rem;font-size:1.6rem">Votre <em>historique</em></h2>
+  <div class="historique-grid" id="historiqueGrid"></div>
+</section>
+
+<!-- FAVORIS -->
+<section id="favoris-section">
+  <p class="section-eyebrow">Sauvegardés</p>
+  <h2 class="section-title" style="margin-bottom:1.5rem;font-size:1.6rem">Mes <em style="color:var(--rouge)">favoris</em> ❤️</h2>
+  <div class="favs-grid" id="favsGrid"></div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-eyebrow" style="color:var(--or)">Ce que nous offrons</div>
+  <h2 class="section-title" style="color:#fff;margin-top:.42rem">Nos <em style="color:rgba(255,255,255,.38)">services</em></h2>
+  <div class="services-grid">
+    <div class="service-item"><div class="service-icon">🏠</div><div class="service-nom">Gestion locative</div><div class="service-desc">Prise en charge complète de votre bien, de la mise en annonce jusqu'à la remise des clés.</div></div>
+    <div class="service-item"><div class="service-icon">✨</div><div class="service-nom">Conciergerie</div><div class="service-desc">Accueil, ménage, linge et services premium à la demande pour un séjour irréprochable.</div></div>
+    <div class="service-item"><div class="service-icon">🔧</div><div class="service-nom">Maintenance</div><div class="service-desc">Réseau d'artisans qualifiés pour toute intervention rapide et sérieuse.</div></div>
+    <div class="service-item"><div class="service-icon">📊</div><div class="service-nom">Optimisation & Aménagement</div><div class="service-desc">Stratégie tarifaire et conseils d'aménagement pour valoriser votre bien.</div></div>
+    <div class="service-item" style="cursor:pointer" onclick="document.getElementById('recherche').scrollIntoView({behavior:'smooth'})"><div class="service-icon">🔍</div><div class="service-nom">Recherche de bien</div><div class="service-desc">Décrivez votre projet, nous trouvons la location idéale pour vous.</div></div>
+  </div>
+</section>
+
+<!-- RECHERCHE -->
+<section id="recherche">
+  <div style="max-width:800px;margin:0 auto">
+    <p class="section-eyebrow">Formulaire de recherche</p>
+    <h2 class="section-title">Trouvez votre <em>bien idéal</em></h2>
+    <div class="recherche-inner">
+      <p style="font-size:.78rem;color:var(--texte);line-height:1.8;margin-bottom:1.6rem;transition:color .3s">Remplissez ce formulaire, notre équipe vous contacte rapidement.</p>
+      <div class="form-row">
+        <div class="form-field"><label>Prénom *</label><input type="text" id="r-prenom" placeholder="Votre prénom"></div>
+        <div class="form-field"><label>Nom</label><input type="text" id="r-nom" placeholder="Votre nom"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Téléphone *</label><input type="tel" id="r-tel" placeholder="+241 XX XX XX XX"></div>
+        <div class="form-field"><label>Email</label><input type="email" id="r-email" placeholder="votre@email.com"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Type de bien</label><select id="r-type"><option value="">-- Sélectionner --</option><option>Chambre</option><option>Chambre US</option><option>Studio</option><option>Maison</option></select></div>
+        <div class="form-field"><label>Budget max (XAF/mois)</label><input type="number" id="r-budget" placeholder="Ex: 150 000"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Quartier souhaité</label><input type="text" id="r-quartier" placeholder="Ex: Nzeng-Ayong"></div>
+        <div class="form-field"><label>Ville</label><input type="text" id="r-ville" placeholder="Ex: Libreville"></div>
+      </div>
+      <div class="form-row"><div class="form-field full"><label>Décrivez votre demande</label><textarea id="r-message" placeholder="Nombre de pièces, date d'emménagement…"></textarea></div></div>
+      <button class="btn-submit" onclick="envoyerRecherche()">💬 Envoyer via WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left">
+    <p class="section-eyebrow" style="color:var(--or)">Nous joindre</p>
+    <h2 class="section-title">Parlons de<br><em>votre projet</em></h2>
+    <p class="contact-intro">Notre équipe est disponible du lundi au samedi pour répondre à toutes vos questions.</p>
+    <div class="contact-infos">
+      <div class="contact-info-item"><strong>Téléphone / WhatsApp</strong>+241 65 40 29 39</div>
+      <div class="contact-info-item"><strong>Email</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aee0cbdbc8c7c3c3c1eec9c3cfc7c280cdc1c3">[email&#160;protected]</a></div>
+      <div class="contact-info-item"><strong>Horaires</strong>Lundi – Samedi · 9h à 16h</div>
+    </div>
+    <div class="contact-socials">
+      <a href="https://wa.me/24165402939" target="_blank" class="social-btn">💬 WhatsApp</a>
+      <a href="https://t.me/+24165402939" target="_blank" class="social-btn">✈️ Telegram</a>
+      <a href="tel:+24165402939" class="social-btn">📞 Appeler</a>
+    </div>
+  </div>
+  <div class="contact-right">
+    <div class="form-row"><div class="form-field"><label>Prénom</label><input type="text" placeholder="Votre prénom"></div><div class="form-field"><label>Nom</label><input type="text" placeholder="Votre nom"></div></div>
+    <div class="form-row"><div class="form-field full"><label>Email</label><input type="email" placeholder="votre@email.com"></div></div>
+    <div class="form-row"><div class="form-field full"><label>Sujet</label><select><option>Demande de location</option><option>Mise en gestion de mon bien</option><option>Renseignements généraux</option><option>Autre</option></select></div></div>
+    <div class="form-row"><div class="form-field full"><label>Message</label><textarea placeholder="Décrivez votre demande…"></textarea></div></div>
+    <button class="btn-submit" onclick="showToast('✓ Message envoyé !','ok')">Envoyer le message</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Neuf Immo</div>
+  <div class="footer-copy">© 2025 Neuf Immo Conciergerie · Tous droits réservés</div>
+</footer>
+
+<!-- WA FLOTTANT -->
+<a href="https://wa.me/24165402939" target="_blank" class="wa-float" aria-label="WhatsApp">
+  <span class="wa-tooltip">Contactez-nous</span>
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ══════════ MODALS ══════════ -->
+
+<!-- PIN ADMIN -->
+<div class="overlay" id="pinModal">
+  <div class="modal" style="max-width:415px">
+    <button class="modal-close" onclick="closeModal('pinModal')">✕</button>
+    <h2 class="modal-title">Accès Administrateur</h2>
+    <p style="font-size:.77rem;color:var(--texte);line-height:1.7;margin-bottom:1.2rem;transition:color .3s">Espace réservé à l'équipe NEUF IMMO.</p>
+    <div class="form-field">
+      <label>Mot de passe</label>
+      <input type="password" id="pin-input" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')verifierPin()">
+    </div>
+    <div id="pin-error" style="color:var(--rouge);font-size:.7rem;margin-top:.4rem;display:none">⚠ Mot de passe incorrect.</div>
+    <div class="lockout-msg" id="lockout-msg">🔒 Bloqué — <span id="lockout-cd">30</span>s</div>
+    <div class="pin-note">🔒 Chiffrement SHA-256 · Blocage après 5 tentatives</div>
+    <div class="modal-actions">
+      <button class="btn-save" id="btn-valider" onclick="verifierPin()">Valider</button>
+      <button class="btn-cancel" onclick="closeModal('pinModal')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- ABONNEMENT -->
+<div class="overlay" id="aboModal">
+  <div class="modal" style="max-width:510px">
+    <button class="modal-close" onclick="closeModal('aboModal')">✕</button>
+    <h2 class="modal-title">Abonnement Premium</h2>
+    <div class="abo-prix-hero">
+      <div class="abo-montant">2 500 <span style="font-size:1.7rem">XAF</span></div>
+      <div class="abo-periode">par mois · accès illimité à toutes les annonces</div>
+    </div>
+    <ul class="abo-avantages">
+      <li>Toutes les photos et vidéos de visite de chaque bien</li>
+      <li>Prix réel visible (non masqué)</li>
+      <li>Adresse complète et localisation exacte</li>
+      <li>Contact direct du propriétaire</li>
+      <li>Accès à tous les nouveaux biens dès publication</li>
+      <li>Valable 30 jours à partir de l'activation</li>
+    </ul>
+    <div class="paiement-section">
+      <p class="paiement-section-title">💳 Étape 1 — Choisissez votre opérateur</p>
+      <div class="paiement-options">
+        <button class="paiement-btn" onclick="choisirOp('airtel',this)">📱 Airtel Money</button>
+        <button class="paiement-btn" onclick="choisirOp('moov',this)">📱 Moov Money</button>
+      </div>
+      <div class="paiement-detail" id="pd-airtel">
+        <p><strong>Paiement Airtel Money</strong></p>
+        <p>Envoyez <strong>2 500 XAF</strong> au :</p>
+        <p class="paiement-numero">+241 65 40 29 39</p>
+        <p style="margin-top:.55rem;font-size:.73rem">Nom : <strong>NEUF IMMO</strong> · Objet : <strong>Abonnement</strong></p>
+        <a href="https://wa.me/24165402939?text=Bonjour%20NEUF%20IMMO%2C%20je%20viens%20de%20payer%202500%20XAF%20via%20Airtel%20Money.%20Voici%20ma%20capture%20%3A" target="_blank" class="btn-wa-preuve">📸 Envoyer ma preuve de paiement</a>
+      </div>
+      <div class="paiement-detail" id="pd-moov">
+        <p><strong>Paiement Moov Money</strong></p>
+        <p>Envoyez <strong>2 500 XAF</strong> au :</p>
+        <p class="paiement-numero">+241 65 40 29 39</p>
+        <p style="margin-top:.55rem;font-size:.73rem">Nom : <strong>NEUF IMMO</strong> · Objet : <strong>Abonnement</strong></p>
+        <a href="https://wa.me/24165402939?text=Bonjour%20NEUF%20IMMO%2C%20je%20viens%20de%20payer%202500%20XAF%20via%20Moov%20Money.%20Voici%20ma%20capture%20%3A" target="_blank" class="btn-wa-preuve">📸 Envoyer ma preuve de paiement</a>
+      </div>
+    </div>
+    <div class="abo-ou">ou entrez un code reçu après paiement</div>
+    <div class="code-section">
+      <p style="font-size:.76rem;color:var(--texte);transition:color .3s">Entrez le <strong>code secret</strong> envoyé par NEUF IMMO :</p>
+      <div class="code-input-row">
+        <input type="text" id="code-input" placeholder="NEUF-XXXX" maxlength="12"
+          oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')validerCode()">
+        <button class="btn-activer" onclick="validerCode()">Activer</button>
+      </div>
+      <div id="code-error" style="color:var(--rouge);font-size:.7rem;margin-top:.38rem;display:none">⚠ Code incorrect ou expiré.</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO ABONNÉ -->
+<div class="overlay" id="aboInfoModal">
+  <div class="modal" style="max-width:390px">
+    <button class="modal-close" onclick="closeModal('aboInfoModal')">✕</button>
+    <h2 class="modal-title" style="color:var(--vert)">⭐ Abonnement actif</h2>
+    <p style="font-size:.8rem;color:var(--texte);line-height:1.75;margin-bottom:.9rem;transition:color .3s">Vous avez accès à toutes les informations des annonces.</p>
+    <p id="aboExpiry" style="font-size:.76rem;color:#888;margin-bottom:1.3rem"></p>
+    <div class="modal-actions">
+      <button class="btn-save-vert" onclick="closeModal('aboInfoModal')">Continuer</button>
+      <button class="btn-cancel" onclick="seDesabonner()">Se désabonner</button>
+    </div>
+  </div>
+</div>
+
+<!-- GESTION ABONNÉS (admin) -->
+<div class="overlay" id="aboAdminModal">
+  <div class="modal" style="max-width:560px">
+    <button class="modal-close" onclick="closeModal('aboAdminModal')">✕</button>
+    <h2 class="modal-title">👥 Gestion des abonnés</h2>
+    <div class="abo-admin-section">
+      <h3>📸 Étape 1 — Confirmer un paiement reçu</h3>
+      <div class="capture-upload-zone" onclick="document.getElementById('captureFile').click()">
+        <input type="file" id="captureFile" accept="image/*" onchange="voirCapture(event)" onclick="event.stopPropagation()">
+        <div style="font-size:2rem;margin-bottom:.5rem">📱</div>
+        <p style="font-size:.76rem;color:var(--texte);margin-bottom:.2rem;transition:color .3s">Cliquez pour importer la capture Mobile Money</p>
+        <small style="font-size:.65rem;color:#aaa">JPG, PNG — depuis votre téléphone ou ordinateur</small>
+      </div>
+      <div class="capture-preview" id="capturePreview">
+        <img id="captureImg" src="" alt="Capture">
+        <button class="rm-capture" onclick="supprimerCapture()">✕</button>
+      </div>
+    </div>
+    <div class="abo-admin-section" id="etape2" style="display:none">
+      <h3>🎫 Étape 2 — Générer le code d'accès</h3>
+      <div style="display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:.7rem">
+        <div class="form-field" style="flex:1;min-width:130px">
+          <label>Type d'abonnement</label>
+          <select id="typeAbo">
+            <option value="standard">⭐ Standard — 2 500 XAF</option>
+            <option value="premium">👑 Premium — 5 000 XAF</option>
+          </select>
+        </div>
+        <div class="form-field" style="flex:1;min-width:130px">
+          <label>Durée</label>
+          <select id="dureeAbo">
+            <option value="30">30 jours</option>
+            <option value="60">60 jours</option>
+            <option value="90">90 jours</option>
+            <option value="7">7 jours (test)</option>
+          </select>
+        </div>
+        <button class="btn-save-vert" onclick="genererCode()">⚡ Générer le code</button>
+      </div>
+      <div class="code-genere" id="codeGenere">
+        <p>Code d'accès à envoyer au client :</p>
+        <span class="le-code" id="leCode" onclick="copierCode()">——</span>
+        <small>👆 Cliquez sur le code pour le copier</small>
+        <a class="btn-wa-code" id="btnEnvoyerCode" href="#" target="_blank">💬 Envoyer ce code par WhatsApp</a>
+      </div>
+    </div>
+    <div class="abo-admin-section">
+      <h3>📋 Codes générés — <span id="nbCodesActifs">0</span> actif(s)</h3>
+      <div id="codesActifsList"><div class="codes-vide">Aucun code généré.</div></div>
+      <button class="btn-admin-abo" onclick="viderCodesExpires()">🗑 Supprimer les codes utilisés</button>
+    </div>
+  </div>
+</div>
+
+<!-- AJOUT / MODIF BIEN -->
+<div class="overlay" id="adminModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
+    <h2 class="modal-title" id="adminTitre">Publier un nouveau bien</h2>
+    <input type="hidden" id="f-id">
+    <div style="display:flex;gap:.82rem;flex-wrap:wrap;margin-bottom:.82rem">
+      <div class="form-field" style="flex:2;min-width:172px"><label>Nom du bien *</label><input type="text" id="f-nom" placeholder="Ex: Studio Centre-Ville"></div>
+      <div class="form-field" style="min-width:142px"><label>Type *</label><select id="f-type"><option value="chambre">Chambre</option><option value="chambre_us">Chambre US</option><option value="studio">Studio</option><option value="maison">Maison</option></select></div>
+    </div>
+    <div style="display:flex;gap:.82rem;flex-wrap:wrap;margin-bottom:.82rem">
+      <div class="form-field" style="flex:2;min-width:172px"><label>Localisation complète *</label><input type="text" id="f-lieu" placeholder="Ex: Quartier Louis, Libreville"></div>
+      <div class="form-field" style="min-width:122px"><label>Prix (XAF/mois) *</label><input type="number" id="f-prix" placeholder="150000"></div>
+    </div>
+    <div style="display:flex;gap:.82rem;flex-wrap:wrap;margin-bottom:.82rem">
+      <div class="form-field"><label>Superficie (m²)</label><input type="number" id="f-superficie" placeholder="35"></div>
+      <div class="form-field"><label>Caution</label><select id="f-caution"><option value="caution">Avec caution</option><option value="sans_caution">Sans caution</option><option value="negociable">Caution négociable</option></select></div>
+      <div class="form-field"><label>Statut</label><select id="f-statut"><option value="dispo">Disponible</option><option value="nouveau">Nouveau</option><option value="indispo">Indisponible</option></select></div>
+    </div>
+    <div class="form-field" style="margin-bottom:.82rem"><label>Description</label><textarea id="f-desc" rows="3" placeholder="Équipements, atouts, proximités…"></textarea></div>
+    <div class="form-field">
+      <label>Photos <span style="font-weight:300;color:#aaa">(jusqu'à 10)</span></label>
+      <div class="media-grid" id="mediaGrid"></div>
+      <p class="media-info">JPG, PNG, WEBP · Max 5 Mo par photo</p>
+      <input type="file" id="f-file-input" accept="image/*" multiple onchange="ajouterPhotos(event)">
+    </div>
+    <div class="video-section">
+      <label>🎬 Vidéo de visite (optionnel)</label>
+      <input type="text" id="f-video" placeholder="Lien YouTube ou Google Drive…">
+      <small>Ex: https://youtube.com/watch?v=XXX</small>
+    </div>
+
+    <div class="cert-admin">
+      <p class="cert-admin-ttl">👑 Certification terrain — Visible abonnés Premium uniquement</p>
+      <div class="sw-row">
+        <label class="sw"><input type="checkbox" id="f-certifie" onchange="majCertUI()"><span class="sw-t"></span></label>
+        <span class="sw-lbl">Bien vérifié physiquement par un agent NEUF IMMO</span>
+      </div>
+      <div id="certDetails" style="display:none">
+        <p style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:.35rem">Note globale du bien</p>
+        <div class="stars-pick" id="starsPick">
+          <button class="sp-s" data-v="1" onclick="setNote(1)">★</button>
+          <button class="sp-s" data-v="2" onclick="setNote(2)">★</button>
+          <button class="sp-s" data-v="3" onclick="setNote(3)">★</button>
+          <button class="sp-s" data-v="4" onclick="setNote(4)">★</button>
+          <button class="sp-s" data-v="5" onclick="setNote(5)">★</button>
+        </div>
+        <input type="hidden" id="f-note" value="0">
+        <p style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.42);margin:.58rem 0 .3rem">Critères d'appréciation</p>
+        <div class="crit-grid">
+          <label class="crit-lbl"><input type="checkbox" value="Lumineux" onchange="toggleCrit(this)">☀️ Lumineux</label>
+          <label class="crit-lbl"><input type="checkbox" value="Calme" onchange="toggleCrit(this)">🔇 Calme</label>
+          <label class="crit-lbl"><input type="checkbox" value="Sécurisé" onchange="toggleCrit(this)">🔒 Sécurisé</label>
+          <label class="crit-lbl"><input type="checkbox" value="Bien entretenu" onchange="toggleCrit(this)">✨ Entretenu</label>
+          <label class="crit-lbl"><input type="checkbox" value="Proche commodités" onchange="toggleCrit(this)">🛒 Commodités</label>
+          <label class="crit-lbl"><input type="checkbox" value="Accès facile" onchange="toggleCrit(this)">🚗 Accès facile</label>
+          <label class="crit-lbl"><input type="checkbox" value="Eau 24h/24" onchange="toggleCrit(this)">💧 Eau stable</label>
+          <label class="crit-lbl"><input type="checkbox" value="Électricité stable" onchange="toggleCrit(this)">⚡ Électricité</label>
+        </div>
+        <textarea class="rapport-ta" id="f-rapport" placeholder="Rapport de visite : état général, voisinage, points forts, points à signaler…" rows="3"></textarea>
+        <p style="font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.42);margin:.6rem 0 .3rem">Coordonnées GPS (distance visiteurs)</p>
+        <div class="gps-row">
+          <input class="gps-in" type="number" id="f-lat" placeholder="Latitude  ex: 0.3924" step="any">
+          <input class="gps-in" type="number" id="f-lng" placeholder="Longitude  ex: 9.4536" step="any">
+        </div>
+        <small style="font-size:.6rem;color:rgba(255,255,255,.28);margin-top:.26rem;display:block">💡 Google Maps → clic droit sur le bien → "C'est ici"</small>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-save" onclick="publierBien()">✓ <span id="adminBtnTxt">Publier l'annonce</span></button>
+      <button class="btn-cancel" onclick="closeModal('adminModal')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ABONNEMENT PREMIUM -->
+<div class="overlay" id="premiumModal">
+  <div class="modal" style="max-width:540px">
+    <button class="modal-close" onclick="closeModal('premiumModal')">✕</button>
+    <h2 class="modal-title" style="color:var(--prm2)">Abonnement Premium 👑</h2>
+    <div class="prm-modal-hero">
+      <div class="prm-crown-big">👑</div>
+      <div class="prm-montant">5 000 <span style="font-size:1.75rem">XAF</span></div>
+      <div class="prm-periode">par mois · accès complet + certification terrain</div>
+    </div>
+    <div class="prm-vs">
+      <div class="prm-col col-std">
+        <div class="prm-col-ttl">⭐ Standard inclus</div>
+        <div class="prm-feat">Toutes les photos & vidéos</div>
+        <div class="prm-feat">Prix réel affiché</div>
+        <div class="prm-feat">Adresse complète</div>
+        <div class="prm-feat">Contact WhatsApp & Telegram</div>
+      </div>
+      <div class="prm-col col-prm">
+        <div class="prm-col-ttl">👑 Exclusif Premium</div>
+        <div class="prm-feat exclu">Badge 👑 + note ⭐ sur biens certifiés</div>
+        <div class="prm-feat exclu">Rapport de visite terrain</div>
+        <div class="prm-feat exclu">Critères : Lumineux, Calme, Sécurisé…</div>
+        <div class="prm-feat exclu">Distance depuis votre position GPS</div>
+        <div class="prm-feat exclu">Appel téléphonique direct</div>
+        <div class="prm-feat exclu">Biens certifiés en priorité</div>
+      </div>
+    </div>
+    <div class="paiement-section">
+      <p class="paiement-section-title">💳 Paiement Mobile Money — 5 000 XAF</p>
+      <div class="paiement-options">
+        <button class="paiement-btn" id="prm-airtel-btn" onclick="choisirOpPrm('airtel',this)">📱 Airtel Money</button>
+        <button class="paiement-btn" id="prm-moov-btn" onclick="choisirOpPrm('moov',this)">📱 Moov Money</button>
+      </div>
+      <div class="paiement-detail" id="ppd-airtel" style="display:none">
+        <p><strong>Airtel Money</strong> — Envoyez <strong>5 000 XAF</strong> au&nbsp;:</p>
+        <p class="paiement-numero">+241 65 40 29 39</p>
+        <p style="font-size:.72rem;margin-top:.42rem">Objet&nbsp;: <strong>Premium NEUF IMMO</strong></p>
+        <a href="https://wa.me/24165402939?text=Bonjour%20NEUF%20IMMO%20👋%0AJe%20viens%20de%20payer%205000%20XAF%20via%20Airtel%20Money%20pour%20l'abonnement%20PREMIUM.%20Voici%20ma%20capture%20:" target="_blank" class="btn-wa-preuve">📸 Envoyer ma preuve de paiement</a>
+      </div>
+      <div class="paiement-detail" id="ppd-moov" style="display:none">
+        <p><strong>Moov Money</strong> — Envoyez <strong>5 000 XAF</strong> au&nbsp;:</p>
+        <p class="paiement-numero">+241 65 40 29 39</p>
+        <p style="font-size:.72rem;margin-top:.42rem">Objet&nbsp;: <strong>Premium NEUF IMMO</strong></p>
+        <a href="https://wa.me/24165402939?text=Bonjour%20NEUF%20IMMO%20👋%0AJe%20viens%20de%20payer%205000%20XAF%20via%20Moov%20Money%20pour%20l'abonnement%20PREMIUM.%20Voici%20ma%20capture%20:" target="_blank" class="btn-wa-preuve">📸 Envoyer ma preuve de paiement</a>
+      </div>
+    </div>
+    <div class="abo-ou">ou entrez votre code Premium reçu par WhatsApp</div>
+    <div class="code-section">
+      <div class="code-input-row">
+        <input type="text" id="prm-code-input" placeholder="NEUF-PXXXX" maxlength="12"
+          oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')validerCodePremium()">
+        <button class="btn-activer" style="background:var(--prm)" onclick="validerCodePremium()">Activer 👑</button>
+      </div>
+      <div id="prm-code-error" style="color:var(--rouge);font-size:.7rem;margin-top:.36rem;display:none">⚠ Code Premium incorrect ou déjà utilisé.</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO ABONNÉ PREMIUM -->
+<div class="overlay" id="premiumInfoModal">
+  <div class="modal" style="max-width:380px">
+    <button class="modal-close" onclick="closeModal('premiumInfoModal')">✕</button>
+    <h2 class="modal-title" style="color:var(--prm2)">👑 Abonnement Premium actif</h2>
+    <p style="font-size:.8rem;color:var(--texte);line-height:1.75;margin-bottom:.85rem">Vous avez accès à toutes les informations, biens certifiés, notes d'agents et appels directs.</p>
+    <p id="prmExpiry" style="font-size:.76rem;color:#888;margin-bottom:1.25rem"></p>
+    <div class="modal-actions">
+      <button class="btn-premium" onclick="closeModal('premiumInfoModal')">Continuer 👑</button>
+      <button class="btn-cancel" onclick="seDesabonnerPremium()">Se désabonner</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUIVI AGENTS -->
+<div class="overlay" id="agentModal">
+  <div class="modal" style="max-width:620px">
+    <button class="modal-close" onclick="closeModal('agentModal')">✕</button>
+    <h2 class="modal-title">🎯 Suivi agents — Abonnés Standard</h2>
+    <div class="agent-kpis" id="agentKpis"></div>
+    <p style="font-size:.61rem;letter-spacing:.17em;text-transform:uppercase;color:var(--texte);margin-bottom:.68rem">Abonnés actifs Standard — à contacter</p>
+    <div class="ab-table" id="abonnesTable"><div class="ab-empty">Chargement…</div></div>
+    <p style="font-size:.67rem;color:#aaa;margin-top:.85rem;line-height:1.65">💡 Les abonnés Standard ont accès à toutes les informations des annonces. En tant qu'agent NEUF IMMO, contactez-les pour les orienter vers les biens correspondant à leur profil et les accompagner dans leur recherche.</p>
+  </div>
+</div>
+
+<!-- CONFIRMATION SUPPRESSION -->
+<div class="overlay" id="confirmModal">
+  <div class="modal" style="max-width:410px">
+    <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
+    <h2 class="modal-title" style="color:var(--rouge)">Supprimer l'annonce ?</h2>
+    <p class="confirm-msg">Supprimer définitivement <strong id="confirm-nom"></strong> ? Action irréversible.</p>
+    <div class="modal-actions">
+      <button class="btn-suppr-confirm" onclick="confirmerSuppression()">Oui, supprimer</button>
+      <button class="btn-cancel" onclick="closeModal('confirmModal')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAVORIS -->
+<div class="overlay" id="favsModal">
+  <div class="modal" style="max-width:680px">
+    <button class="modal-close" onclick="closeModal('favsModal')">✕</button>
+    <h2 class="modal-title">❤️ Mes favoris</h2>
+    <div id="favsModalContenu"></div>
+  </div>
+</div>
+
+<!-- DETAIL BIEN -->
+<div class="overlay" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    <div id="detailContenu"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ══ MOT DE PASSE : NeufImmo2025 ══
+const PWD_HASH='220568adcfcd064be5addc21fe89a9c3bbf7a5e507d42dd3ab82c8b2afcdfaab';
+// ══ CODES PRÉDÉFINIS (ajoutez les vôtres) ══
+const CODES={'NEUF-2501':30,'NEUF-2502':30,'NEUF-2503':30,'NEUF-2504':30,'NEUF-2505':30,'NEUF-VIP1':30,'NEUF-VIP2':30,'NEUF-TEST':3};
+
+// Protection console
+const _tok=Math.random().toString(36).slice(2);
+const _st=(()=>{let a=false;return{get admin(){return a},set(v,t){if(t===_tok)a=v}};})();
+Object.defineProperty(window,'adminConnecte',{get(){return'[protégé]'},set(){console.warn('⛔ Accès refusé.')},configurable:false});
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+
+const WA='https://wa.me/24165402939',TG='https://t.me/+24165402939';
+const MAX_T=5,BLK=30;
+let tentatives=0,blocageFin=0,cdTimer=null;
+let idSuppr=null,photosEC=[],filtreActuel='tous';
+let bienDetail=null,galIdx=0,galMedias=[];
+
+// ══ THÈME SOMBRE ══
+function toggleTheme(){
+  const html=document.documentElement;
+  const dark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('themeToggle').textContent=dark?'🌙':'☀️';
+  localStorage.setItem('ni_theme',dark?'light':'dark');
+}
+function initTheme(){
+  const t=localStorage.getItem('ni_theme')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';
+}
+
+// ══ ANIMATION COMPTEURS STATS ══
+function animerCompteur(el,cible,suffixe='',duree=1800){
+  let start=null;
+  const step=ts=>{
+    if(!start)start=ts;
+    const p=Math.min((ts-start)/duree,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(ease*cible)+(p<1?'':suffixe);
+    if(p<1)requestAnimationFrame(step);
+    else el.textContent=cible+suffixe;
+  };
+  requestAnimationFrame(step);
+}
+function lancerAnimStats(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        animerCompteur(document.getElementById('stat98'),98,'%');
+        animerCompteur(document.getElementById('stat6'),6,' ans');
+        obs.disconnect();
+      }
+    });
+  },{threshold:.5});
+  const band=document.querySelector('.stats-band');
+  if(band)obs.observe(band);
+}
+
+// ══ VUES (partagées) ══
+async function getVues(){
+  try{ const r=await jbinGet('ni_vues'); return r&&typeof r==='object'?r:{}; }
+  catch{return {};}
+}
+async function incVue(id){
+  try{
+    const v=await getVues();
+    v[id]=(v[id]||0)+1;
+    await jbinSet('ni_vues',v);
+  }catch{}
+}
+async function nbVuesAsync(id){const v=await getVues();return v[id]||0;}
+function nbVues(id){return _vuesCache[id]||0;} // lecture depuis cache local
+let _vuesCache={};
+
+// ══ FAVORIS ══
+function getFavs(){try{return JSON.parse(localStorage.getItem('ni_favs')||'[]');}catch{return[];}}
+function toggleFav(id,e){
+  if(e){e.stopPropagation();}
+  let favs=getFavs();
+  const i=favs.indexOf(id);
+  if(i>=0){favs.splice(i,1);showToast('Retiré des favoris');}
+  else{favs.push(id);showToast('❤️ Ajouté aux favoris','ok');}
+  localStorage.setItem('ni_favs',JSON.stringify(favs));
+  majUIFavs();appliquerFiltres();renderSectionsFavHistorique();
+}
+function estFavori(id){return getFavs().includes(id);}
+function majUIFavs(){
+  const n=getFavs().length;
+  const badge=document.getElementById('favCountBadge');
+  badge.textContent=n;badge.style.display=n>0?'flex':'none';
+}
+function renderFavsModal(){
+  const favs=getFavs();
+  const el=document.getElementById('favsModalContenu');
+  if(!favs.length){el.innerHTML='<p style="text-align:center;color:#aaa;padding:2rem;font-size:.82rem">Aucun favori pour le moment.<br>Cliquez sur ❤️ sur une annonce pour sauvegarder.</p>';return;}
+  const items=favs.map(id=>{
+    const b=biens.find(x=>x.id===id);if(!b)return'';
+    const img=b.photos&&b.photos.length?b.photos[0]:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=70';
+    return`<div style="display:flex;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--bord);align-items:center;cursor:pointer" onclick="closeModal('favsModal');ouvrirDetail(${b.id})">
+      <img src="${img}" style="width:80px;height:60px;object-fit:cover;flex-shrink:0" alt="${b.nom}">
+      <div style="flex:1;min-width:0">
+        <p style="font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:.15rem">${tL(b.type)}</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--noir);margin-bottom:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.nom}</p>
+        <p style="font-size:.68rem;color:var(--texte)">${b.lieu}</p>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--or);font-weight:600">${b.prix.toLocaleString('fr-FR')}</p>
+        <p style="font-size:.58rem;color:var(--texte)">XAF/mois</p>
+        <button onclick="event.stopPropagation();toggleFav(${b.id},event);renderFavsModal()" style="margin-top:.3rem;background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--rouge)">✕ Retirer</button>
+      </div>
+    </div>`;
+  }).join('');
+  el.innerHTML=items||'<p style="color:#aaa;padding:1rem;font-size:.82rem">Certains biens ne sont plus disponibles.</p>';
+}
+
+// ══ HISTORIQUE ══
+function getHistorique(){try{return JSON.parse(localStorage.getItem('ni_histo')||'[]');}catch{return[];}}
+function ajouterHistorique(id){
+  let h=getHistorique().filter(x=>x.id!==id);
+  h.unshift({id,ts:Date.now()});
+  if(h.length>10)h=h.slice(0,10);
+  localStorage.setItem('ni_histo',JSON.stringify(h));
+}
+function estVuRecemment(id){
+  const h=getHistorique();
+  const item=h.find(x=>x.id===id);
+  if(!item)return false;
+  return(Date.now()-item.ts)<86400000;// moins de 24h
+}
+function renderSectionsFavHistorique(){
+  // Historique
+  const h=getHistorique();
+  const secH=document.getElementById('historique');
+  const gridH=document.getElementById('historiqueGrid');
+  if(h.length>0){
+    secH.classList.add('visible');
+    gridH.innerHTML=h.map(item=>{
+      const b=biens.find(x=>x.id===item.id);if(!b)return'';
+      const img=b.photos&&b.photos.length?b.photos[0]:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=70';
+      const mins=Math.floor((Date.now()-item.ts)/60000);
+      const quand=mins<60?`Il y a ${mins}min`:`Il y a ${Math.floor(mins/60)}h`;
+      return`<div class="histo-card" onclick="ouvrirDetail(${b.id})">
+        <img src="${img}" alt="${b.nom}">
+        <div class="histo-card-body">
+          <div class="histo-nom">${b.nom}</div>
+          <div class="histo-prix">${b.prix.toLocaleString('fr-FR')} XAF</div>
+          <div class="histo-quand">${quand}</div>
+        </div>
+      </div>`;
+    }).filter(Boolean).join('');
+  } else secH.classList.remove('visible');
+  // Favoris
+  const favs=getFavs();
+  const secF=document.getElementById('favoris-section');
+  const gridF=document.getElementById('favsGrid');
+  if(favs.length>0){
+    secF.classList.add('visible');
+    gridF.innerHTML=favs.map(id=>{
+      const b=biens.find(x=>x.id===id);if(!b)return'';
+      const img=b.photos&&b.photos.length?b.photos[0]:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=70';
+      return`<div class="histo-card" onclick="ouvrirDetail(${b.id})">
+        <img src="${img}" alt="${b.nom}">
+        <div class="histo-card-body">
+          <div class="histo-nom">${b.nom}</div>
+          <div class="histo-prix">${b.prix.toLocaleString('fr-FR')} XAF</div>
+          <div class="histo-quand" style="color:var(--rouge)">❤️ Favori</div>
+        </div>
+      </div>`;
+    }).filter(Boolean).join('');
+  } else secF.classList.remove('visible');
+}
+
+// ══ ABONNEMENT STANDARD ══
+function estAbonne(){try{const d=JSON.parse(localStorage.getItem('ni_abo')||'{}');return d.exp&&Date.now()<d.exp;}catch{return false;}}
+function activerAbo(jours){
+  localStorage.setItem('ni_abo',JSON.stringify({exp:Date.now()+jours*86400000,activeLe:Date.now(),type:'standard'}));
+  majUIAbo();closeModal('aboModal');
+  showToast('🎉 Abonnement Standard activé ! Accès complet débloqué.','ok');appliquerFiltres();
+}
+function seDesabonner(){localStorage.removeItem('ni_abo');majUIAbo();closeModal('aboInfoModal');showToast('Abonnement désactivé.');appliquerFiltres();}
+
+// ══ ABONNEMENT PREMIUM ══
+function estPremium(){try{const d=JSON.parse(localStorage.getItem('ni_abo_prm')||'{}');return d.exp&&Date.now()<d.exp;}catch{return false;}}
+function activerPremium(jours){
+  const exp=Date.now()+jours*86400000;
+  localStorage.setItem('ni_abo_prm',JSON.stringify({exp,activeLe:Date.now(),type:'premium'}));
+  localStorage.setItem('ni_abo',JSON.stringify({exp,activeLe:Date.now(),type:'premium'}));
+  majUIAbo();closeModal('premiumModal');
+  showToast('👑 Abonnement Premium activé ! Accès total débloqué.','ok');appliquerFiltres();
+}
+function seDesabonnerPremium(){
+  localStorage.removeItem('ni_abo_prm');localStorage.removeItem('ni_abo');
+  majUIAbo();closeModal('premiumInfoModal');showToast('Abonnement Premium désactivé.');appliquerFiltres();
+}
+async function validerCodePremium(){
+  const c=document.getElementById('prm-code-input').value.trim().toUpperCase();
+  const el=document.getElementById('prm-code-error');
+  if(!c){showToast('⚠ Entrez votre code Premium.','err');return;}
+  const codes=await obtenirCodesDynamiques();
+  const entry=codes.find(x=>x.code===c&&x.premium===true&&!x.utilise);
+  if(entry){el.style.display='none';await marquerCodeUtilise(c);activerPremium(entry.jours);}
+  else{el.style.display='block';document.getElementById('prm-code-input').value='';}
+}
+function choisirOpPrm(op,btn){
+  document.querySelectorAll('#premiumModal .paiement-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  ['airtel','moov'].forEach(k=>{const el=document.getElementById(`ppd-${k}`);if(el)el.style.display=k===op?'block':'none';});
+}
+
+// ══ UI ABO ══
+function majUIAbo(){
+  const std=estAbonne(),prm=estPremium();
+  document.getElementById('aboBadge').style.display=std&&!prm?'flex':'none';
+  const pb=document.getElementById('premiumBadge');if(pb)pb.style.display=prm?'flex':'none';
+  document.getElementById('aboBanner').style.display=std||prm?'none':'flex';
+  const pb2=document.getElementById('premiumBanner');if(pb2)pb2.classList.toggle('vis',!prm);
+  // Admin
+  const isAdmin=_st&&_st.admin;
+  const btnAgent=document.getElementById('btnAgent');
+  if(btnAgent)btnAgent.style.display=isAdmin?'inline-block':'none';
+  // Expirations
+  const banExp=document.getElementById('expireBanner');
+  if(std||prm){
+    try{
+      const key=prm?'ni_abo_prm':'ni_abo';
+      const d=JSON.parse(localStorage.getItem(key)||'{}');
+      const jr=Math.ceil((d.exp-Date.now())/86400000);
+      const el1=document.getElementById('aboExpiry');if(el1)el1.textContent=`Expire dans ${jr} jour${jr>1?'s':''}.`;
+      const el2=document.getElementById('prmExpiry');if(el2)el2.textContent=`Expire dans ${jr} jour${jr>1?'s':''}.`;
+      if(jr<=3&&banExp){banExp.style.display='block';const ej=document.getElementById('expireJours');if(ej)ej.textContent=jr;}
+      else if(banExp)banExp.style.display='none';
+    }catch{if(banExp)banExp.style.display='none';}
+  }else if(banExp)banExp.style.display='none';
+}
+async function validerCode(){
+  const c=document.getElementById('code-input').value.trim().toUpperCase();
+  const el=document.getElementById('code-error');
+  if(!c){showToast('⚠ Entrez votre code.','err');return;}
+  const duree=CODES[c]||(await obtenirCodeDynamique(c));
+  if(duree){el.style.display='none';await marquerCodeUtilise(c);activerAbo(duree);}
+  else{el.style.display='block';document.getElementById('code-input').value='';document.getElementById('code-input').focus();}
+}
+function choisirOp(op,btn){
+  document.querySelectorAll('.paiement-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('pd-airtel').classList.remove('vis');
+  document.getElementById('pd-moov').classList.remove('vis');
+  document.getElementById(`pd-${op}`).classList.add('vis');
+}
+
+// ══ CODES DYNAMIQUES (partagés) ══
+async function obtenirCodesDynamiques(){
+  try{ const r=await jbinGet('ni_codes_gen'); return Array.isArray(r)?r:[]; }
+  catch{return[];}
+}
+async function sauverCodesDynamiques(c){
+  try{ await jbinSet('ni_codes_gen',c); }catch{}
+}
+async function obtenirCodeDynamique(code){
+  const e=(await obtenirCodesDynamiques()).find(c=>c.code===code);
+  return e&&!e.utilise?e.jours:null;
+}
+async function marquerCodeUtilise(code){
+  const codes=await obtenirCodesDynamiques();
+  const i=codes.findIndex(c=>c.code===code);
+  if(i>=0){codes[i].utilise=true;codes[i].utiliseLE=Date.now();}
+  await sauverCodesDynamiques(codes);
+}
+let captureOK=false;
+function voirCapture(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    document.getElementById('captureImg').src=ev.target.result;
+    document.getElementById('capturePreview').style.display='block';
+    document.getElementById('etape2').style.display='block';
+    captureOK=true;showToast('✓ Capture chargée.','ok');
+  };r.readAsDataURL(f);
+}
+function supprimerCapture(){
+  document.getElementById('captureImg').src='';
+  document.getElementById('capturePreview').style.display='none';
+  document.getElementById('etape2').style.display='none';
+  document.getElementById('codeGenere').style.display='none';
+  document.getElementById('captureFile').value='';captureOK=false;
+}
+async function genererCode(){
+  if(!captureOK){showToast("⚠ Importez d'abord la capture.",'err');return;}
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s='';for(let i=0;i<4;i++)s+=chars[Math.floor(Math.random()*chars.length)];
+  const typeEl=document.getElementById('typeAbo');
+  const isPrm=typeEl&&typeEl.value==='premium';
+  const code=isPrm?`NEUF-P${s}`:`NEUF-${s}`;
+  const jours=parseInt(document.getElementById('dureeAbo').value);
+  const codes=await obtenirCodesDynamiques();
+  codes.unshift({code,jours,premium:isPrm,creeLe:Date.now(),utilise:false});
+  await sauverCodesDynamiques(codes);
+  const leCodeEl=document.getElementById('leCode');
+  leCodeEl.textContent=code;
+  leCodeEl.style.color=isPrm?'var(--prm2)':'var(--vert)';
+  document.getElementById('codeGenere').style.display='block';
+  const lbl=isPrm?'👑 Premium':'⭐ Standard';
+  const msg=encodeURIComponent(`Bonjour 👋\n\nMerci pour votre paiement ✅\n\nVoici votre code NEUF IMMO ${lbl} :\n\n${isPrm?'👑':'🎫'} *${code}*\n\nDurée : ${jours} jours\n\nEntrez ce code dans la section "${isPrm?'Premium — 5 000 XAF':'S\'abonner'}" du site.\n\nBonne recherche ! 🏠`);
+  document.getElementById('btnEnvoyerCode').href=`https://wa.me/?text=${msg}`;
+  await majListeCodesActifs();showToast(`✓ Code ${lbl} ${code} généré !`,'ok');
+}
+function copierCode(){
+  const c=document.getElementById('leCode').textContent;
+  if(!c||c==='——')return;
+  navigator.clipboard?navigator.clipboard.writeText(c).then(()=>showToast('✓ Code copié !','ok')):showToast('✓ Code : '+c,'ok');
+}
+async function majListeCodesActifs(){
+  const codes=await obtenirCodesDynamiques();
+  const el=document.getElementById('codesActifsList');
+  if(!el)return;
+  const nb=codes.filter(c=>!c.utilise).length;
+  document.getElementById('nbCodesActifs').textContent=nb;
+  if(!codes.length){el.innerHTML='<div class="codes-vide">Aucun code généré.</div>';return;}
+  el.innerHTML=codes.map((c,i)=>{
+    const d=new Date(c.creeLe);
+    const ds=`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;
+    const st=c.utilise?'<span style="color:#aaa">Utilisé</span>':'<span style="color:var(--vert)">Actif</span>';
+    const tp=c.premium?'<span style="color:var(--prm2);font-size:.58rem">👑</span>':'<span style="color:var(--or);font-size:.58rem">⭐</span>';
+    return`<div class="code-actif-item">${tp}<span class="code-val" style="${c.premium?'color:var(--prm2)':''}">${c.code}</span><span class="code-meta">${c.jours}j · ${ds} · ${st}</span><button class="btn-rm-code" onclick="supprimerCode(${i})">✕</button></div>`;
+  }).join('');
+}
+async function supprimerCode(i){
+  const c=await obtenirCodesDynamiques();c.splice(i,1);
+  await sauverCodesDynamiques(c);await majListeCodesActifs();
+}
+async function viderCodesExpires(){
+  const c=await obtenirCodesDynamiques();
+  await sauverCodesDynamiques(c.filter(x=>!x.utilise));
+  await majListeCodesActifs();showToast('✓ Codes utilisés supprimés.','ok');
+}
+
+// ══ DONNÉES ══
+const BD=[
+  {id:1,nom:"Studio Lumière",type:"studio",lieu:"Nzeng-Ayong, Libreville",prix:120000,superficie:38,caution:"sans_caution",statut:"nouveau",da:Date.now()-172800000,desc:"Studio moderne et lumineux, cuisine américaine, salle de bain privée. Proche des commerces et transports. Eau chaude, clim, WiFi inclus.",photos:["https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=700&q=80","https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=700&q=80","https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80"],video:"",certifie:true,note:5,criteres:["Lumineux","Calme","Bien entretenu","Eau 24h/24"],rapport:"Excellent bien. Appartement propre, lumineux, très bonne ventilation. Voisinage tranquille, gardien présent. Eau et électricité très stables. Recommandé sans réserve.",lat:0.4162,lng:9.4673},
+  {id:2,nom:"Chambre US Résidence Palms",type:"chambre_us",lieu:"Quartier Louis, Libreville",prix:180000,superficie:55,caution:"caution",statut:"dispo",da:Date.now()-604800000,desc:"Chambre US spacieuse avec salon privatif, cuisine équipée, eau chaude. Résidence sécurisée 24h/24. Gardien, parking, groupe électrogène.",photos:["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80","https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=700&q=80","https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=700&q=80"],video:"",certifie:true,note:4,criteres:["Sécurisé","Accès facile","Électricité stable","Proche commodités"],rapport:"Résidence bien gardée, portail sécurisé. Chambre US fonctionnelle et correctement équipée. Groupe électrogène opérationnel. Léger bruit de circulation en journée.",lat:0.3924,lng:9.4536},
+  {id:3,nom:"Chambre Cosy Centre",type:"chambre",lieu:"Akanda, Libreville",prix:75000,superficie:22,caution:"negociable",statut:"dispo",da:Date.now()-1209600000,desc:"Chambre propre et confortable, lit, armoire, ventilateur. Salle de bain partagée. Idéale étudiant ou jeune travailleur.",photos:["https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=700&q=80","https://images.unsplash.com/photo-1540518614846-7eded433c457?w=700&q=80"],video:"",certifie:false,note:0,criteres:[],rapport:"",lat:null,lng:null},
+  {id:4,nom:"Villa Belle Époque",type:"maison",lieu:"Batterie IV, Libreville",prix:650000,superficie:240,caution:"caution",statut:"dispo",da:Date.now()-2592000000,desc:"Grande villa 5 pièces avec jardin, parking 3 voitures, cuisine équipée, salon climatisé. Quartier résidentiel calme.",photos:["https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=700&q=80","https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80","https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=700&q=80","https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80"],video:"",certifie:true,note:5,criteres:["Calme","Sécurisé","Bien entretenu","Accès facile","Eau 24h/24","Électricité stable"],rapport:"Villa exceptionnelle. Grand espace intérieur et extérieur, jardin impeccable. Tout en parfait état. Quartier résidentiel très calme. Groupe électrogène personnel fonctionnel. Visite fortement recommandée.",lat:0.3701,lng:9.4425},
+  {id:5,nom:"Studio Prestige Bord Mer",type:"studio",lieu:"Sablière, Port-Gentil",prix:95000,superficie:42,caution:"sans_caution",statut:"indispo",da:Date.now()-5184000000,desc:"Studio vue mer, terrasse privée, parking inclus. Disponible prochainement.",photos:["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80"],video:"",certifie:false,note:0,criteres:[],rapport:"",lat:null,lng:null},
+  {id:6,nom:"Maison Familiale Lalala",type:"maison",lieu:"Lalala, Libreville",prix:350000,superficie:145,caution:"negociable",statut:"nouveau",da:Date.now()-86400000,desc:"Maison 4 chambres, cour clôturée, groupe électrogène. Caution négociable selon profil.",photos:["https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=700&q=80","https://images.unsplash.com/photo-1484154218962-a197022b5858?w=700&q=80"],video:"",certifie:true,note:3,criteres:["Lumineux","Accès facile","Électricité stable"],rapport:"Maison fonctionnelle, grande cour bien clôturée. Quelques finitions à prévoir. Groupe électrogène en état. Bon rapport qualité-prix pour une famille.",lat:0.4015,lng:9.4602}
+];
+// ══ STOCKAGE PARTAGÉ (JSONBin.io) — synchronisé entre tous les appareils ══
+const JBIN_KEY = '$2a$10$Mt7aBZPYDte93OPGUIVP2.MvNpTByr6G1XaC61LNDEtFRJ3g3HCYm';
+const JBIN_BINS = {}; // cache des IDs de bins { clé: binId }
+
+async function jbinGet(cle) {
+  try {
+    // Chercher le bin existant
+    if (!JBIN_BINS[cle]) {
+      const r = await fetch(`https://api.jsonbin.io/v3/b?name=${cle}`, {
+        headers: { 'X-Master-Key': JBIN_KEY }
+      });
+      const data = await r.json();
+      if (data && data.length > 0) {
+        JBIN_BINS[cle] = data[0]._id;
+      } else {
+        return null; // pas encore créé
+      }
+    }
+    const r2 = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_BINS[cle]}/latest`, {
+      headers: { 'X-Master-Key': JBIN_KEY }
+    });
+    const d2 = await r2.json();
+    return d2.record !== undefined ? d2.record : null;
+  } catch(e) { console.warn('jbinGet error', cle, e); return null; }
+}
+
+async function jbinSet(cle, valeur) {
+  try {
+    if (!JBIN_BINS[cle]) {
+      // Chercher d'abord
+      const r = await fetch(`https://api.jsonbin.io/v3/b?name=${cle}`, {
+        headers: { 'X-Master-Key': JBIN_KEY }
+      });
+      const data = await r.json();
+      if (data && data.length > 0) {
+        JBIN_BINS[cle] = data[0]._id;
+      } else {
+        // Créer le bin
+        const rc = await fetch('https://api.jsonbin.io/v3/b', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': JBIN_KEY, 'X-Bin-Name': cle, 'X-Bin-Private': 'true' },
+          body: JSON.stringify(valeur)
+        });
+        const dc = await rc.json();
+        JBIN_BINS[cle] = dc.metadata.id;
+        return;
+      }
+    }
+    await fetch(`https://api.jsonbin.io/v3/b/${JBIN_BINS[cle]}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JBIN_KEY },
+      body: JSON.stringify(valeur)
+    });
+  } catch(e) { console.warn('jbinSet error', cle, e); }
+}
+// biens, vues, codes → partagés (shared=true)
+// abonnement, favoris, historique, thème → personnels (shared=false/localStorage)
+
+async function chargerBiens(){
+  try{
+    const r = await jbinGet('ni_biens');
+    if(r && Array.isArray(r) && r.length > 0) return r;
+  }catch(e){console.warn('chargerBiens:',e);}
+  return [...BD];
+}
+async function sauv(){
+  try{ await jbinSet('ni_biens', biens); }
+  catch(e){console.warn('sauv:',e);}
+}
+let biens=[...BD]; // initialisé avec BD, remplacé au chargement async
+
+// ══ UTILITAIRES ══
+const tL=t=>({chambre:'Chambre',chambre_us:'Chambre US',studio:'Studio',maison:'Maison'}[t]||t);
+const cL=c=>({caution:'Avec caution',sans_caution:'Sans caution',negociable:'Caution négociable'}[c]||c);
+function dateRel(ts){const j=Math.floor((Date.now()-ts)/86400000);if(j===0)return"Aujourd'hui";if(j===1)return"Hier";if(j<7)return`Il y a ${j}j`;if(j<30)return`Il y a ${Math.floor(j/7)}sem.`;return`Il y a ${Math.floor(j/30)}mois`;}
+function toEmbed(url){if(!url)return'';const yt=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);if(yt)return`https://www.youtube.com/embed/${yt[1]}`;if(url.includes('youtube.com/embed'))return url;const gd=url.match(/drive\.google\.com\/file\/d\/([^/]+)/);if(gd)return`https://drive.google.com/file/d/${gd[1]}/preview`;return url;}
+function majCompteur(){
+  const n=biens.filter(b=>b.statut!=='indispo').length;
+  document.getElementById('statBiens').textContent=n;
+  document.getElementById('compteurTexte').textContent=`${n} bien${n>1?'s':''} disponible${n>1?'s':''}`;
+}
+
+// ══ RENDU GRILLE ══
+function appliquerFiltres(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase().trim();
+  const tri=document.getElementById('triSelect').value;
+  let l=filtreActuel==='tous'?[...biens]:biens.filter(b=>b.type===filtreActuel);
+  if(q)l=l.filter(b=>b.nom.toLowerCase().includes(q)||b.lieu.toLowerCase().includes(q)||tL(b.type).toLowerCase().includes(q));
+  if(tri==='prix-asc')l.sort((a,b)=>a.prix-b.prix);
+  else if(tri==='prix-desc')l.sort((a,b)=>b.prix-a.prix);
+  else if(tri==='recent')l.sort((a,b)=>b.da-a.da);
+  else if(tri==='vues')l.sort((a,b)=>nbVues(b.id)-nbVues(a.id));
+  rendreBiens(l);
+}
+function filtrer(type,btn){filtreActuel=type;document.querySelectorAll('.filtre-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');appliquerFiltres();}
+
+function rendreBiens(liste){
+  const g=document.getElementById('biens-grid');
+  const abo=estAbonne(),prm=estPremium();
+  if(!liste.length){
+    g.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--texte)"><p style="font-size:.88rem;margin-bottom:.8rem">Aucun bien trouvé</p><span style="font-size:.73rem;color:#aaa">Essayez un autre filtre</span></div>`;
+    majCompteur();return;
+  }
+  // Abonnés Premium : biens certifiés remontent en premier
+  const listeTri=prm?[...liste].sort((a,b)=>((b.certifie?1:0)-(a.certifie?1:0))||0):liste;
+  g.innerHTML=listeTri.map(b=>{
+    const imgs=b.photos&&b.photos.length?b.photos:['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=80'];
+    const vues=nbVues(b.id);
+    const fav=estFavori(b.id);
+    const badge=b.statut==='dispo'?'<span class="bien-badge badge-dispo">Disponible</span>':b.statut==='nouveau'?'<span class="bien-badge badge-nouveau">Nouveau</span>':'<span class="bien-badge badge-indispo">Indisponible</span>';
+    const dots=imgs.length>1?`<div class="gallery-dots">${imgs.map((_,i)=>abo?`<span class="g-dot${i===0?' active':''}" onclick="event.stopPropagation();cGal(${b.id},${i})"></span>`:`<span class="g-dot g-dot-locked"></span>`).join('')}</div>`:'';
+    const arr=abo&&imgs.length>1?`<button class="gallery-prev" onclick="event.stopPropagation();cGalPrev(${b.id})">‹</button><button class="gallery-next" onclick="event.stopPropagation();cGalNext(${b.id})">›</button>`:'';
+    const lockOv=!abo?`<div class="lock-overlay"><div class="lock-left"><div class="lock-icon">🔒</div><div class="lock-text">+${imgs.length-1} photos · prix · adresse<br>réservés aux abonnés</div></div><button class="lock-cta" onclick="event.stopPropagation();openModal('aboModal')">S'abonner</button></div>`:'';
+    const lieuAff=abo?b.lieu:(b.lieu.split(',')[0]+', [Ville masquée]');
+    const prixRow=abo?`<span class="bien-prix">${b.prix.toLocaleString('fr-FR')}<span class="bien-prix-unit"> XAF/mois</span></span>`:`<span class="prix-locked">•••••• <span class="prix-locked-label" onclick="event.stopPropagation();openModal('aboModal')">Voir →</span></span>`;
+    const recentBadge=estVuRecemment(b.id)&&vues>0?'<span class="badge-recent">👁 Vu récemment</span>':'';
+    const nbM=(imgs.length)+(b.video?1:0);
+    // Badge couronne — visible uniquement pour abonnés Premium si bien certifié
+    let certBadge='';
+    if(prm&&b.certifie&&b.note>0){
+      const stars=Array.from({length:5},(_,i)=>`<span class="cstar${i<b.note?'':' empty'}">★</span>`).join('');
+      certBadge=`<div class="cert-wrap"><span class="cert-crown">👑</span><div class="cert-stars-mini">${stars}</div></div>`;
+    }
+    return `<div class="bien-card" data-id="${b.id}" data-statut="${b.statut}" data-gi="0" onclick="ouvrirDetail(${b.id})">
+      <div class="bien-img-wrap">
+        ${arr}
+        <img id="ci-${b.id}" src="${imgs[0]}" alt="${b.nom}" loading="lazy">
+        ${lockOv}
+        ${certBadge}
+        <div class="vues-badge"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>${vues}</div>
+        <button class="fav-btn${fav?' actif':''}" onclick="toggleFav(${b.id},event)" title="${fav?'Retirer des favoris':'Ajouter aux favoris'}">${fav?'❤️':'🤍'}</button>
+        ${badge}
+        ${dots}
+        ${b.da?`<span class="badge-date">${dateRel(b.da)}</span>`:''}
+        ${recentBadge}
+      </div>
+      <div class="card-admin-btns">
+        <button class="btn-card-action btn-edit-card" onclick="event.stopPropagation();ouvrirModif(${b.id})">✏</button>
+        <button class="btn-card-action btn-suppr-card" onclick="event.stopPropagation();demSuppr(${b.id})">🗑</button>
+      </div>
+      <div class="bien-body">
+        <p class="bien-type">${tL(b.type)}</p>
+        <h3 class="bien-nom">${b.nom}</h3>
+        <p class="bien-lieu">${lieuAff}</p>
+        <div class="bien-infos">
+          <div class="bien-info"><span>${b.superficie}m²</span>Surface</div>
+          <div class="bien-info"><span>${cL(b.caution)}</span>Caution</div>
+          ${nbM>1?`<div class="bien-info"><span>${nbM}📷</span>Médias</div>`:''}
+        </div>
+        <div class="bien-prix-row">${prixRow}
+          <button class="btn-voir" onclick="event.stopPropagation();ouvrirDetail(${b.id})">Voir</button>
+        </div>
+      </div></div>`;
+  }).join('');
+  majCompteur();
+}
+
+function cGal(id,idx){const b=biens.find(x=>x.id===id);if(!b)return;const imgs=b.photos||[];const card=document.querySelector(`.bien-card[data-id="${id}"]`);if(!card)return;card.dataset.gi=idx;const img=document.getElementById(`ci-${id}`);if(img)img.src=imgs[idx]||imgs[0];card.querySelectorAll('.g-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));}
+function cGalNext(id){const b=biens.find(x=>x.id===id);if(!b)return;const imgs=b.photos||[];const c=document.querySelector(`.bien-card[data-id="${id}"]`);cGal(id,(parseInt(c.dataset.gi||0)+1)%imgs.length);}
+function cGalPrev(id){const b=biens.find(x=>x.id===id);if(!b)return;const imgs=b.photos||[];const c=document.querySelector(`.bien-card[data-id="${id}"]`);cGal(id,(parseInt(c.dataset.gi||0)-1+imgs.length)%imgs.length);}
+
+// ══ DETAIL ══
+async function ouvrirDetail(id){
+  const b=biens.find(x=>x.id===id);if(!b)return;
+  bienDetail=b;galIdx=0;
+  await incVue(id);
+  _vuesCache=await getVues();
+  ajouterHistorique(id);
+  renderSectionsFavHistorique();appliquerFiltres();
+  const abo=estAbonne(),prm=estPremium();
+  const imgs=b.photos&&b.photos.length?b.photos:['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=80'];
+  const embedV=b.video?toEmbed(b.video):'';
+  const msg=encodeURIComponent(`Bonjour NEUF IMMO 👋\n\nJe suis intéressé(e) par :\n🏠 *${b.nom}*\n📍 ${b.lieu}\n💰 ${b.prix.toLocaleString('fr-FR')} XAF/mois\n\nPouvez-vous me donner plus d'informations ?`);
+  let html='';
+  if(!abo){
+    html=`<div class="detail-lock"><h3>🔒 Contenu réservé aux abonnés</h3><p>Pour voir toutes les photos, vidéos, le prix exact et l'adresse complète, abonnez-vous pour <strong style="color:var(--vert)">2 500 XAF / mois</strong>.</p><button class="btn-souscrire" onclick="closeModal('detailModal');openModal('aboModal')">⭐ S'abonner maintenant</button></div>
+    <p style="font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-bottom:.22rem">${tL(b.type)}</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:.22rem;color:var(--noir)">${b.nom}</h2>
+    <p style="color:var(--texte);font-size:.72rem;margin-bottom:.82rem">📍 ${b.lieu.split(',')[0]}, [Adresse masquée]</p>
+    <div style="margin-bottom:.82rem"><span class="prix-locked" style="font-size:1.45rem">•••••• XAF <span class="prix-locked-label" onclick="closeModal('detailModal');openModal('aboModal')">Débloquer →</span></span></div>
+    <div class="detail-tags"><span class="detail-tag">📐 ${b.superficie}m²</span><span class="detail-tag">💰 ${cL(b.caution)}</span><span class="detail-tag">🏠 ${tL(b.type)}</span></div>
+    <p class="detail-desc" style="filter:blur(3px);user-select:none">${b.desc||'Description disponible pour les abonnés.'}</p>`;
+  } else {
+    galMedias=[...imgs.map(s=>({t:'img',src:s}))];
+    if(embedV)galMedias.push({t:'video',src:embedV});
+    const galItems=galMedias.map((m,i)=>m.t==='img'?`<img src="${m.src}" alt="${b.nom}" class="${i===0?'act':''}">`:
+      `<iframe src="${m.src}" class="${i===0?'act':''}" allow="accelerometer;autoplay;encrypted-media;gyroscope" allowfullscreen></iframe>`).join('');
+    const showNav=galMedias.length>1;
+    const dots=showNav?galMedias.map((m,i)=>`<span class="dg-dot${m.t==='video'?' vdot':''}${i===0?' act':''}" onclick="allerGal(${i})"></span>`).join(''):'';
+    const fav=estFavori(b.id);
+
+    // ─── BLOC CERTIFICATION PREMIUM ───
+    let certBloc='';
+    if(prm&&b.certifie){
+      const stars=Array.from({length:5},(_,i)=>`<span class="dcstar${i<(b.note||0)?'':' empty'}">★</span>`).join('');
+      const critsHtml=(b.criteres||[]).map(c=>`<span class="crit-pill">${c}</span>`).join('');
+      const rapportHtml=b.rapport?`<div class="detail-rapport">💬 "${b.rapport}"</div>`:'';
+      certBloc=`<div class="detail-cert">
+        <div class="detail-cert-hd">
+          <div class="detail-cert-crown">👑</div>
+          <div><div class="detail-cert-lbl">Bien vérifié terrain — Certifié NEUF IMMO</div>
+          <div class="detail-cert-stars">${stars}</div></div>
+        </div>
+        ${critsHtml?`<div class="detail-crits">${critsHtml}</div>`:''}
+        ${rapportHtml}
+      </div>`;
+    } else if(prm&&!b.certifie){
+      certBloc=''; // pas de bloc si non certifié
+    } else if(!prm&&b.certifie){
+      certBloc=`<div style="padding:.85rem 1rem;background:linear-gradient(135deg,#0f0519,#1e0840);border:1px solid rgba(168,85,247,.25);margin-bottom:.9rem;display:flex;align-items:center;gap:.75rem">
+        <span style="font-size:1.5rem">👑</span>
+        <div><p style="font-size:.58rem;letter-spacing:.17em;text-transform:uppercase;color:var(--prm2);margin-bottom:.18rem">Ce bien est certifié terrain</p>
+        <p style="font-size:.72rem;color:rgba(255,255,255,.45)">Note, rapport de visite et distance disponibles avec l'<button onclick="closeModal('detailModal');openModal('premiumModal')" style="background:none;border:none;cursor:pointer;color:var(--prm2);text-decoration:underline;font-size:.72rem;padding:0">Abonnement Premium 👑</button></p></div>
+      </div>`;
+    }
+
+    // ─── DISTANCE GPS PREMIUM ───
+    let distBloc='';
+    if(prm&&b.lat&&b.lng){
+      distBloc=`<div class="dist-row">
+        <div class="dist-badge" id="distBadge-${b.id}">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span id="distTxt-${b.id}">Calcul de la distance…</span>
+        </div>
+        <button class="btn-geo" onclick="calculerDistance(${b.id},${b.lat},${b.lng})">📍 Ma position</button>
+      </div>`;
+    }
+
+    // ─── CONTACT PREMIUM : ajouter Appel direct ───
+    const contactActions=prm
+      ?`<div class="contact-actions">
+          <a href="${WA}?text=${msg}" target="_blank" class="ca-btn ca-wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a4.6 4.6 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg> WhatsApp</a>
+          <a href="${TG}?text=${msg}" target="_blank" class="ca-btn ca-tg"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Telegram</a>
+          <a href="tel:+24165402939" class="ca-btn ca-tel" style="background:linear-gradient(135deg,var(--prm),var(--prm2));color:#fff;border-color:var(--prm)">📞 Appel direct</a>
+          <a href="${WA}?text=${msg}" target="_blank" class="ca-btn ca-wa" style="background:#128C7E">📞 Appel WhatsApp</a>
+          <button class="ca-btn ca-share" onclick="partager()">🔗 Copier les infos</button>
+        </div>`
+      :`<div class="contact-actions">
+          <a href="${WA}?text=${msg}" target="_blank" class="ca-btn ca-wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a4.6 4.6 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg> WhatsApp</a>
+          <a href="${TG}?text=${msg}" target="_blank" class="ca-btn ca-tg"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg> Telegram</a>
+          <a href="tel:+24165402939" class="ca-btn ca-tel">📞 +241 65 40 29 39</a>
+          <button class="ca-btn ca-share" onclick="partager()">🔗 Copier les infos</button>
+        </div>`;
+
+    html=`<div class="detail-gallery" id="dg">${galItems}
+      ${showNav?'<button class="dg-prev" onclick="galPrev()">‹</button><button class="dg-next" onclick="galNext()">›</button>':''}
+      <div class="dg-dots">${dots}</div></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem;margin-bottom:.22rem">
+      <div><p style="font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-bottom:.22rem">${tL(b.type)}</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--noir)">${b.nom}</h2></div>
+      <button onclick="toggleFav(${b.id},event);document.getElementById('detailContenu').querySelector('.fav-dm').textContent=estFavori(${b.id})?'❤️ Retirer des favoris':'🤍 Sauvegarder'" style="background:none;border:1px solid var(--bord);cursor:pointer;padding:.4rem .8rem;font-size:.65rem;color:var(--texte);font-family:'Jost',sans-serif;flex-shrink:0;transition:all .25s" class="fav-dm">${fav?'❤️ Retirer des favoris':'🤍 Sauvegarder'}</button>
+    </div>
+    <p style="color:var(--texte);font-size:.72rem;margin-bottom:.62rem">📍 ${b.lieu}</p>
+    ${distBloc}
+    <div style="display:flex;align-items:baseline;gap:.42rem;margin-bottom:.3rem"><span class="dm-prix">${b.prix.toLocaleString('fr-FR')} XAF</span><span style="font-size:.68rem;color:var(--texte)">/mois</span></div>
+    <div class="detail-tags">
+      <span class="detail-tag">📐 ${b.superficie}m²</span><span class="detail-tag">💰 ${cL(b.caution)}</span>
+      <span class="detail-tag">🏠 ${tL(b.type)}</span>
+      ${b.da?`<span class="detail-tag">📅 ${dateRel(b.da)}</span>`:''}
+      <span class="detail-tag">👁 ${nbVues(b.id)} vues</span>
+      ${galMedias.length>1?`<span class="detail-tag">📷 ${galMedias.length} médias</span>`:''}
+    </div>
+    <p class="detail-desc">${b.desc||''}</p>
+    ${certBloc}
+    <p style="font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;color:var(--texte);margin-bottom:.88rem">${prm?'👑 Contact direct réservé Premium :':'Nous contacter pour ce bien :'}</p>
+    ${contactActions}`;
+  }
+  document.getElementById('detailContenu').innerHTML=html;
+  openModal('detailModal');
+  // Lancer le calcul de distance automatiquement si position connue
+  if(estPremium()&&b.lat&&b.lng){
+    const pos=JSON.parse(localStorage.getItem('ni_pos')||'null');
+    if(pos)afficherDistance(b.id,b.lat,b.lng,pos.lat,pos.lng);
+    else calculerDistance(b.id,b.lat,b.lng);
+  }
+}
+
+// ══ DISTANCE GPS ══
+function calculerDistance(id,blat,blng){
+  const el=document.getElementById(`distTxt-${id}`);
+  if(!navigator.geolocation){if(el)el.textContent='GPS non disponible sur cet appareil';return;}
+  if(el)el.textContent='Localisation en cours…';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    localStorage.setItem('ni_pos',JSON.stringify({lat:pos.coords.latitude,lng:pos.coords.longitude}));
+    afficherDistance(id,blat,blng,pos.coords.latitude,pos.coords.longitude);
+  },err=>{if(el)el.textContent='Position non disponible';});
+}
+function afficherDistance(id,blat,blng,ulat,ulng){
+  const el=document.getElementById(`distTxt-${id}`);if(!el)return;
+  const R=6371,dLat=(blat-ulat)*Math.PI/180,dLng=(blng-ulng)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(ulat*Math.PI/180)*Math.cos(blat*Math.PI/180)*Math.sin(dLng/2)**2;
+  const km=R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  el.textContent=km<1?`À ${Math.round(km*1000)} m de vous`:`À ${km.toFixed(1)} km de vous`;
+}
+function allerGal(i){galIdx=i;const dg=document.getElementById('dg');if(!dg)return;dg.querySelectorAll('img,iframe').forEach((el,j)=>el.classList.toggle('act',j===i));dg.querySelectorAll('.dg-dot').forEach((d,j)=>d.classList.toggle('act',j===i));}
+function galNext(){if(galMedias.length>1)allerGal((galIdx+1)%galMedias.length);}
+function galPrev(){if(galMedias.length>1)allerGal((galIdx-1+galMedias.length)%galMedias.length);}
+function partager(){if(!bienDetail)return;const b=bienDetail;const txt=`🏠 *${b.nom}* — NEUF IMMO\n📍 ${b.lieu}\n💰 ${b.prix.toLocaleString('fr-FR')} XAF/mois\n${cL(b.caution)}\n\nContactez NEUF IMMO : ${WA}`;navigator.clipboard?navigator.clipboard.writeText(txt).then(()=>showToast('✓ Infos copiées !','ok')):showToast('✓ Copié !','ok');}
+
+// ══ SUIVI AGENTS ══
+async function chargerSuiviAbonnes(){
+  const codes=await obtenirCodesDynamiques();
+  // On affiche tous les codes utilisés (= abonnés actifs ou expirés)
+  const maintenant=Date.now();
+  // Reconstituer liste abonnés à partir des codes utilisés
+  const abonnes=codes.filter(c=>c.utilise&&c.utiliseLE).map(c=>({
+    code:c.code,jours:c.jours,premium:!!c.premium,
+    utiliseLE:c.utiliseLE,
+    expLE:c.utiliseLE+c.jours*86400000,
+    actif:maintenant<(c.utiliseLE+c.jours*86400000)
+  }));
+  const actifs=abonnes.filter(a=>a.actif&&!a.premium);
+  const premium=abonnes.filter(a=>a.actif&&a.premium);
+  const expires=abonnes.filter(a=>!a.actif);
+  const kpis=document.getElementById('agentKpis');
+  if(kpis)kpis.innerHTML=`
+    <div class="akpi"><span class="akpi-n">${actifs.length}</span><span class="akpi-l">Standard actifs</span></div>
+    <div class="akpi"><span class="akpi-n" style="color:var(--prm2)">${premium.length}</span><span class="akpi-l">Premium actifs</span></div>
+    <div class="akpi"><span class="akpi-n" style="color:#aaa">${expires.length}</span><span class="akpi-l">Expirés</span></div>
+    <div class="akpi"><span class="akpi-n">${actifs.length+premium.length}</span><span class="akpi-l">Total actifs</span></div>`;
+  const table=document.getElementById('abonnesTable');
+  if(!table)return;
+  if(!abonnes.length){table.innerHTML='<div class="ab-empty">Aucun abonné enregistré pour le moment.</div>';return;}
+  table.innerHTML=[...actifs,...premium,...expires].map(a=>{
+    const d=new Date(a.utiliseLE);
+    const ds=`${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;
+    const jr=Math.ceil((a.expLE-maintenant)/86400000);
+    const pillHtml=a.actif?(a.premium?'<span class="pill pill-prm">👑 Premium</span>':'<span class="pill pill-std">⭐ Standard</span>'):'<span class="pill pill-exp">Expiré</span>';
+    const jrTxt=a.actif?`Expire dans ${jr}j`:`Expiré depuis ${Math.abs(jr)}j`;
+    const waMsg=encodeURIComponent(`Bonjour 👋\n\nC'est l'équipe NEUF IMMO !\n\nNous espérons que vous profitez bien de votre accès ${a.premium?'Premium 👑':'Standard ⭐'}.\n\nVotre abonnement ${a.actif?`expire dans ${jr} jours`:'a expiré'}. Besoin d'aide pour trouver un bien ? Nous sommes là pour vous accompagner ! 🏠`);
+    return`<div class="ab-row">
+      <span class="ab-code">${a.code}</span>
+      <div class="ab-info"><b>${a.premium?'Abonné Premium':'Abonné Standard'}</b><br>Activé le ${ds} · ${jrTxt}</div>
+      <div class="ab-statut">${pillHtml}<button class="btn-wa-ab" onclick="window.open('https://wa.me/?text=${waMsg}','_blank')">💬 WhatsApp</button></div>
+    </div>`;
+  }).join('');
+}
+
+// ══ CONNEXION ADMIN ══
+function demanderPin(){document.getElementById('pin-input').value='';document.getElementById('pin-error').style.display='none';document.getElementById('lockout-msg').style.display='none';openModal('pinModal');setTimeout(()=>{if(Date.now()<blocageFin){affBlocage();return;}document.getElementById('pin-input').focus();},300);}
+function affBlocage(){const btn=document.getElementById('btn-valider'),inp=document.getElementById('pin-input');btn.disabled=true;btn.style.opacity='.4';inp.disabled=true;document.getElementById('lockout-msg').style.display='block';if(cdTimer)clearInterval(cdTimer);cdTimer=setInterval(()=>{const r=Math.ceil((blocageFin-Date.now())/1000);if(r<=0){clearInterval(cdTimer);btn.disabled=false;btn.style.opacity='1';inp.disabled=false;document.getElementById('lockout-msg').style.display='none';tentatives=0;}else document.getElementById('lockout-cd').textContent=r;},500);}
+async function verifierPin(){if(Date.now()<blocageFin){affBlocage();return;}const v=document.getElementById('pin-input').value;if(!v){showToast('⚠ Saisissez le mot de passe.','err');return;}const h=await sha256(v);if(h===PWD_HASH){tentatives=0;closeModal('pinModal');_st.set(true,_tok);document.body.classList.add('admin-mode');document.getElementById('adminBadge').style.display='flex';document.getElementById('btnDeco').style.display='block';document.getElementById('btnGererAbo').style.display='block';const ba=document.getElementById('btnAgent');if(ba)ba.style.display='inline-block';reinitForm();document.getElementById('adminTitre').textContent='Publier un nouveau bien';document.getElementById('adminBtnTxt').textContent="Publier l'annonce";openModal('adminModal');showToast('✓ Accès administrateur accordé','ok');}else{tentatives++;document.getElementById('pin-error').style.display='block';document.getElementById('pin-input').value='';if(tentatives>=MAX_T){blocageFin=Date.now()+BLK*1000;affBlocage();showToast(`⛔ Bloqué ${BLK}s.`,'err');}else{showToast(`⚠ Incorrect (${tentatives}/${MAX_T})`,'err');document.getElementById('pin-input').focus();}}}
+function seDeconnecter(){_st.set(false,_tok);document.body.classList.remove('admin-mode');document.getElementById('adminBadge').style.display='none';document.getElementById('btnDeco').style.display='none';document.getElementById('btnGererAbo').style.display='none';const ba=document.getElementById('btnAgent');if(ba)ba.style.display='none';showToast('Session administrateur fermée');}
+
+// ══ MÉDIAS ADMIN ══
+function renderMediaGrid(){const g=document.getElementById('mediaGrid');g.innerHTML='';photosEC.forEach((src,i)=>{const d=document.createElement('div');d.className='media-item';d.innerHTML=`<img src="${src}" alt="p${i}"><button class="rm" onclick="rmPhoto(${i})">✕</button>`;g.appendChild(d);});if(photosEC.length<10){const a=document.createElement('div');a.className='media-add';a.innerHTML='<span style="font-size:1.2rem">+</span><span>Photo</span>';a.onclick=()=>document.getElementById('f-file-input').click();g.appendChild(a);}}
+function rmPhoto(i){photosEC.splice(i,1);renderMediaGrid();}
+function ajouterPhotos(e){const files=Array.from(e.target.files);const rest=10-photosEC.length;files.slice(0,rest).forEach(f=>{if(!f.type.startsWith('image/')){showToast('⚠ Image requise.','err');return;}if(f.size>5*1024*1024){showToast('⚠ Max 5 Mo.','err');return;}const r=new FileReader();r.onload=ev=>{photosEC.push(ev.target.result);renderMediaGrid();};r.readAsDataURL(f);});e.target.value='';if(files.length>rest)showToast(`⚠ Max 10 photos. ${files.length-rest} ignorée(s).`,'err');}
+// ══ ADMIN CERTIFICATION ══
+function majCertUI(){
+  const checked=document.getElementById('f-certifie').checked;
+  document.getElementById('certDetails').style.display=checked?'block':'none';
+}
+function setNote(val){
+  document.getElementById('f-note').value=val;
+  document.querySelectorAll('#starsPick .sp-s').forEach(b=>{
+    b.classList.toggle('on',parseInt(b.dataset.v)<=val);
+  });
+}
+function toggleCrit(cb){cb.closest('.crit-lbl').classList.toggle('on',cb.checked);}
+
+function ouvrirModif(id){
+  if(!_st.admin){showToast('⚠ Non autorisé.','err');return;}
+  const b=biens.find(x=>x.id===id);if(!b)return;
+  document.getElementById('f-id').value=id;
+  document.getElementById('f-nom').value=b.nom;
+  document.getElementById('f-type').value=b.type;
+  document.getElementById('f-lieu').value=b.lieu;
+  document.getElementById('f-prix').value=b.prix;
+  document.getElementById('f-superficie').value=b.superficie;
+  document.getElementById('f-caution').value=b.caution;
+  document.getElementById('f-statut').value=b.statut;
+  document.getElementById('f-desc').value=b.desc||'';
+  document.getElementById('f-video').value=b.video||'';
+  // Certification
+  document.getElementById('f-certifie').checked=!!b.certifie;
+  document.getElementById('f-note').value=b.note||0;
+  document.getElementById('f-rapport').value=b.rapport||'';
+  document.getElementById('f-lat').value=b.lat||'';
+  document.getElementById('f-lng').value=b.lng||'';
+  majCertUI();
+  setNote(b.note||0);
+  document.querySelectorAll('.crit-lbl').forEach(lbl=>{
+    const cb=lbl.querySelector('input');
+    cb.checked=(b.criteres||[]).includes(cb.value);
+    lbl.classList.toggle('on',cb.checked);
+  });
+  photosEC=[...(b.photos||[])];renderMediaGrid();
+  document.getElementById('adminTitre').textContent='Modifier ce bien';
+  document.getElementById('adminBtnTxt').textContent='Enregistrer';
+  openModal('adminModal');
+}
+function reinitForm(){
+  document.getElementById('f-id').value='';
+  ['f-nom','f-lieu','f-prix','f-superficie','f-desc','f-video','f-rapport','f-lat','f-lng'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+  document.getElementById('f-certifie').checked=false;
+  document.getElementById('f-note').value=0;
+  document.querySelectorAll('.crit-lbl').forEach(l=>{l.querySelector('input').checked=false;l.classList.remove('on');});
+  setNote(0);majCertUI();
+  document.getElementById('f-file-input').value='';photosEC=[];renderMediaGrid();
+}
+async function publierBien(){
+  if(!_st.admin){showToast('⚠ Non autorisé.','err');return;}
+  const nom=document.getElementById('f-nom').value.trim(),lieu=document.getElementById('f-lieu').value.trim(),prix=parseInt(document.getElementById('f-prix').value);
+  if(!nom||!lieu||!prix){showToast('⚠ Nom, lieu et prix obligatoires.','err');return;}
+  const photos=photosEC.length?[...photosEC]:['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=80'];
+  const certifie=document.getElementById('f-certifie').checked;
+  const criteres=certifie?Array.from(document.querySelectorAll('.crit-lbl input:checked')).map(c=>c.value):[];
+  const data={nom,lieu,prix,photos,
+    type:document.getElementById('f-type').value,
+    superficie:parseInt(document.getElementById('f-superficie').value)||30,
+    caution:document.getElementById('f-caution').value,
+    statut:document.getElementById('f-statut').value,
+    desc:document.getElementById('f-desc').value||'Bien disponible.',
+    video:document.getElementById('f-video').value.trim(),
+    certifie,
+    note:certifie?parseInt(document.getElementById('f-note').value)||0:0,
+    criteres,
+    rapport:certifie?(document.getElementById('f-rapport').value.trim()||''):'',
+    lat:certifie&&document.getElementById('f-lat').value?parseFloat(document.getElementById('f-lat').value):null,
+    lng:certifie&&document.getElementById('f-lng').value?parseFloat(document.getElementById('f-lng').value):null
+  };
+  const eid=document.getElementById('f-id').value;
+  if(eid){const i=biens.findIndex(b=>b.id==eid);if(i>=0)biens[i]={...biens[i],...data};showToast('✓ Bien modifié !','ok');}
+  else{biens.unshift({id:Date.now(),da:Date.now(),...data});showToast('✓ Annonce publiée !','ok');}
+  await sauv();appliquerFiltres();closeModal('adminModal');reinitForm();
+  setTimeout(()=>document.getElementById('biens').scrollIntoView({behavior:'smooth'}),400);
+}
+function demSuppr(id){if(!_st.admin){showToast('⚠ Non autorisé.','err');return;}idSuppr=id;const b=biens.find(x=>x.id===id);document.getElementById('confirm-nom').textContent=b?`"${b.nom}"`:'ce bien';openModal('confirmModal');}
+async function confirmerSuppression(){
+  if(!_st.admin||!idSuppr)return;
+  biens=biens.filter(b=>b.id!==idSuppr);idSuppr=null;
+  await sauv();appliquerFiltres();closeModal('confirmModal');showToast('✓ Annonce supprimée.','ok');
+}
+
+// ══ RECHERCHE ══
+function envoyerRecherche(){const p=document.getElementById('r-prenom').value.trim(),t=document.getElementById('r-tel').value.trim();if(!p||!t){showToast('⚠ Prénom et téléphone obligatoires.','err');return;}const txt=`Bonjour NEUF IMMO 👋\n\nRecherche de bien :\n👤 ${p} ${document.getElementById('r-nom').value}\n📞 ${t}\n🏠 ${document.getElementById('r-type').value||'Non précisé'}\n💰 ${document.getElementById('r-budget').value||'Non précisé'} XAF/mois\n📍 ${document.getElementById('r-quartier').value||'—'} — ${document.getElementById('r-ville').value||'—'}\n💬 ${document.getElementById('r-message').value||'—'}`;window.open(`${WA}?text=${encodeURIComponent(txt)}`,'_blank');showToast('✓ Redirection WhatsApp…','ok');}
+
+// ══ MENU MOBILE ══
+function toggleMenu(){const h=document.getElementById('hamburger'),m=document.getElementById('mobileMenu');h.classList.toggle('open');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+
+// ══ MODALS ══
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id);}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.overlay.open').forEach(el=>closeModal(el.id));});
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast'+(type?` ${type}`:'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+
+// ══ INIT ASYNCHRONE ══
+async function init(){
+  // Indicateur de chargement
+  const g=document.getElementById('biens-grid');
+  if(g)g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--texte)"><p style="font-size:.85rem">⏳ Chargement des annonces…</p></div>';
+
+  try{
+    // Charger données partagées
+    biens = await chargerBiens();
+    _vuesCache = await getVues();
+  }catch(e){
+    console.warn('Erreur chargement partagé, fallback local:', e);
+    biens = BD;
+    _vuesCache = {};
+  }
+  initTheme();
+  lancerAnimStats();
+  majUIFavs();
+  majUIAbo();
+  appliquerFiltres();
+  rendusSectionsFavHistorique();
+  await majListeCodesActifs();
+  lancerAnimStats();
+}
+
+init();
+</script>
+</body>
+</html>
