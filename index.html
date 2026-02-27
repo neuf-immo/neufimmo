@@ -1611,13 +1611,19 @@ async function jbinSet(cle, valeur) {
 async function chargerBiens(){
   try{
     const r = await jbinGet('ni_biens');
-    if(r && Array.isArray(r) && r.length > 0) return r;
-  }catch(e){console.warn('chargerBiens:',e);}
+    // Si Firebase retourne un tableau valide (même vide), on l'utilise
+    if(r !== null && r !== undefined){
+      return Array.isArray(r) ? r : Object.values(r);
+    }
+  }catch(e){console.warn('chargerBiens Firebase erreur:',e);}
+  // Fallback uniquement si Firebase est inaccessible
   return [...BD];
 }
 async function sauv(){
-  try{ await jbinSet('ni_biens', biens); }
-  catch(e){console.warn('sauv:',e);}
+  try{
+    await jbinSet('ni_biens', biens);
+    console.log('✅ Sauvegarde Firebase OK — ',biens.length,'biens');
+  }catch(e){console.warn('sauv Firebase erreur:',e);}
 }
 let biens=[...BD]; // initialisé avec BD, remplacé au chargement async
 
@@ -2044,13 +2050,18 @@ async function init(){
   if(g)g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--texte)"><p style="font-size:.85rem">⏳ Chargement des annonces…</p></div>';
 
   try{
+    // Tester connexion Firebase d'abord
+    const testR = await fetch(FB_URL + '/.json?shallow=true');
+    if(!testR.ok) throw new Error('Firebase inaccessible');
     // Charger données partagées
     biens = await chargerBiens();
     _vuesCache = await getVues();
+    console.log('✅ Firebase connecté —', biens.length, 'biens chargés');
   }catch(e){
-    console.warn('Erreur chargement partagé, fallback local:', e);
-    biens = BD;
+    console.warn('⚠ Firebase erreur, fallback local:', e);
+    biens = [...BD];
     _vuesCache = {};
+    showToast('⚠ Mode hors ligne — données locales uniquement', 'err');
   }
   initTheme();
   lancerAnimStats();
