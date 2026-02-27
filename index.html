@@ -1069,7 +1069,7 @@ footer{background:#0D0D0D;border-top:1px solid rgba(201,168,76,.13);padding:2rem
       <label>Photos <span style="font-weight:300;color:#aaa">(jusqu'à 10)</span></label>
       <div class="media-grid" id="mediaGrid"></div>
       <p class="media-info">JPG, PNG, WEBP · Max 5 Mo par photo</p>
-      <input type="file" id="f-file-input" accept="image/*" multiple onchange="ajouterPhotos(event)">
+      <input type="file" id="f-file-input" accept="image/*,image/jpeg,image/png,image/webp,image/gif" multiple onchange="ajouterPhotos(event)">
     </div>
     <div class="video-section">
       <label>🎬 Vidéo de visite (optionnel)</label>
@@ -1584,60 +1584,26 @@ const BD=[
   {id:5,nom:"Studio Prestige Bord Mer",type:"studio",lieu:"Sablière, Port-Gentil",prix:95000,superficie:42,caution:"sans_caution",statut:"indispo",da:Date.now()-5184000000,desc:"Studio vue mer, terrasse privée, parking inclus. Disponible prochainement.",photos:["https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80"],video:"",certifie:false,note:0,criteres:[],rapport:"",lat:null,lng:null},
   {id:6,nom:"Maison Familiale Lalala",type:"maison",lieu:"Lalala, Libreville",prix:350000,superficie:145,caution:"negociable",statut:"nouveau",da:Date.now()-86400000,desc:"Maison 4 chambres, cour clôturée, groupe électrogène. Caution négociable selon profil.",photos:["https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=700&q=80","https://images.unsplash.com/photo-1484154218962-a197022b5858?w=700&q=80"],video:"",certifie:true,note:3,criteres:["Lumineux","Accès facile","Électricité stable"],rapport:"Maison fonctionnelle, grande cour bien clôturée. Quelques finitions à prévoir. Groupe électrogène en état. Bon rapport qualité-prix pour une famille.",lat:0.4015,lng:9.4602}
 ];
-// ══ STOCKAGE PARTAGÉ (JSONBin.io) — synchronisé entre tous les appareils ══
-const JBIN_KEY = '$2a$10$Mt7aBZPYDte93OPGUIVP2.MvNpTByr6G1XaC61LNDEtFRJ3g3HCYm';
-const JBIN_BINS = {}; // cache des IDs de bins { clé: binId }
+// ══ STOCKAGE PARTAGÉ (Firebase Realtime Database) — synchronisé entre tous les appareils ══
+const FB_URL = 'https://neuf-immo-default-rtdb.europe-west1.firebasedatabase.app';
 
 async function jbinGet(cle) {
   try {
-    // Chercher le bin existant
-    if (!JBIN_BINS[cle]) {
-      const r = await fetch(`https://api.jsonbin.io/v3/b?name=${cle}`, {
-        headers: { 'X-Master-Key': JBIN_KEY }
-      });
-      const data = await r.json();
-      if (data && data.length > 0) {
-        JBIN_BINS[cle] = data[0]._id;
-      } else {
-        return null; // pas encore créé
-      }
-    }
-    const r2 = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_BINS[cle]}/latest`, {
-      headers: { 'X-Master-Key': JBIN_KEY }
-    });
-    const d2 = await r2.json();
-    return d2.record !== undefined ? d2.record : null;
-  } catch(e) { console.warn('jbinGet error', cle, e); return null; }
+    const r = await fetch(`${FB_URL}/${cle}.json`);
+    if (!r.ok) return null;
+    const data = await r.json();
+    return data;
+  } catch(e) { console.warn('fbGet error', cle, e); return null; }
 }
 
 async function jbinSet(cle, valeur) {
   try {
-    if (!JBIN_BINS[cle]) {
-      // Chercher d'abord
-      const r = await fetch(`https://api.jsonbin.io/v3/b?name=${cle}`, {
-        headers: { 'X-Master-Key': JBIN_KEY }
-      });
-      const data = await r.json();
-      if (data && data.length > 0) {
-        JBIN_BINS[cle] = data[0]._id;
-      } else {
-        // Créer le bin
-        const rc = await fetch('https://api.jsonbin.io/v3/b', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Master-Key': JBIN_KEY, 'X-Bin-Name': cle, 'X-Bin-Private': 'true' },
-          body: JSON.stringify(valeur)
-        });
-        const dc = await rc.json();
-        JBIN_BINS[cle] = dc.metadata.id;
-        return;
-      }
-    }
-    await fetch(`https://api.jsonbin.io/v3/b/${JBIN_BINS[cle]}`, {
+    await fetch(`${FB_URL}/${cle}.json`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JBIN_KEY },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(valeur)
     });
-  } catch(e) { console.warn('jbinSet error', cle, e); }
+  } catch(e) { console.warn('fbSet error', cle, e); }
 }
 // biens, vues, codes → partagés (shared=true)
 // abonnement, favoris, historique, thème → personnels (shared=false/localStorage)
@@ -1929,7 +1895,7 @@ async function verifierPin(){if(Date.now()<blocageFin){affBlocage();return;}cons
 function seDeconnecter(){_st.set(false,_tok);document.body.classList.remove('admin-mode');document.getElementById('adminBadge').style.display='none';document.getElementById('btnDeco').style.display='none';document.getElementById('btnGererAbo').style.display='none';const ba=document.getElementById('btnAgent');if(ba)ba.style.display='none';showToast('Session administrateur fermée');}
 
 // ══ MÉDIAS ADMIN ══
-function renderMediaGrid(){const g=document.getElementById('mediaGrid');g.innerHTML='';photosEC.forEach((src,i)=>{const d=document.createElement('div');d.className='media-item';d.innerHTML=`<img src="${src}" alt="p${i}"><button class="rm" onclick="rmPhoto(${i})">✕</button>`;g.appendChild(d);});if(photosEC.length<10){const a=document.createElement('div');a.className='media-add';a.innerHTML='<span style="font-size:1.2rem">+</span><span>Photo</span>';a.onclick=()=>document.getElementById('f-file-input').click();g.appendChild(a);}}
+function renderMediaGrid(){const g=document.getElementById('mediaGrid');g.innerHTML='';photosEC.forEach((src,i)=>{const d=document.createElement('div');d.className='media-item';d.innerHTML=`<img src="${src}" alt="p${i}"><button class="rm" onclick="rmPhoto(${i})">✕</button>`;g.appendChild(d);});if(photosEC.length<10){const a=document.createElement('div');a.className='media-add';a.innerHTML='<span style="font-size:1.2rem">+</span><span>Photos</span>';a.title="Sélectionner plusieurs photos à la fois";a.setAttribute("multiple","");a.onclick=()=>document.getElementById('f-file-input').click();g.appendChild(a);}}
 function rmPhoto(i){photosEC.splice(i,1);renderMediaGrid();}
 async function ajouterPhotos(e){
   const files=Array.from(e.target.files);
