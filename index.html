@@ -1931,7 +1931,46 @@ function seDeconnecter(){_st.set(false,_tok);document.body.classList.remove('adm
 // ══ MÉDIAS ADMIN ══
 function renderMediaGrid(){const g=document.getElementById('mediaGrid');g.innerHTML='';photosEC.forEach((src,i)=>{const d=document.createElement('div');d.className='media-item';d.innerHTML=`<img src="${src}" alt="p${i}"><button class="rm" onclick="rmPhoto(${i})">✕</button>`;g.appendChild(d);});if(photosEC.length<10){const a=document.createElement('div');a.className='media-add';a.innerHTML='<span style="font-size:1.2rem">+</span><span>Photo</span>';a.onclick=()=>document.getElementById('f-file-input').click();g.appendChild(a);}}
 function rmPhoto(i){photosEC.splice(i,1);renderMediaGrid();}
-function ajouterPhotos(e){const files=Array.from(e.target.files);const rest=10-photosEC.length;files.slice(0,rest).forEach(f=>{if(!f.type.startsWith('image/')){showToast('⚠ Image requise.','err');return;}if(f.size>5*1024*1024){showToast('⚠ Max 5 Mo.','err');return;}const r=new FileReader();r.onload=ev=>{photosEC.push(ev.target.result);renderMediaGrid();};r.readAsDataURL(f);});e.target.value='';if(files.length>rest)showToast(`⚠ Max 10 photos. ${files.length-rest} ignorée(s).`,'err');}
+async function ajouterPhotos(e){
+  const files=Array.from(e.target.files);
+  const rest=10-photosEC.length;
+  const toUpload=files.slice(0,rest).filter(f=>{
+    if(!f.type.startsWith('image/')){showToast('⚠ Image requise.','err');return false;}
+    if(f.size>10*1024*1024){showToast('⚠ Max 10 Mo par photo.','err');return false;}
+    return true;
+  });
+  if(!toUpload.length){e.target.value='';return;}
+  if(files.length>rest)showToast(`⚠ Max 10 photos. ${files.length-rest} ignorée(s).`,'err');
+
+  showToast(`⏳ Upload de ${toUpload.length} photo(s) en cours…`);
+
+  // Upload toutes en parallèle
+  const results = await Promise.allSettled(toUpload.map(async f=>{
+    const fd=new FormData();
+    fd.append('image',f);
+    const res=await fetch('https://api.imgur.com/3/image',{
+      method:'POST',
+      headers:{'Authorization':'Client-ID 546c25a59c58ad7'},
+      body:fd
+    });
+    const data=await res.json();
+    if(!data.success) throw new Error('Imgur error');
+    return data.data.link;
+  }));
+
+  let ok=0, fail=0;
+  results.forEach(r=>{
+    if(r.status==='fulfilled'){photosEC.push(r.value);ok++;}
+    else fail++;
+  });
+
+  renderMediaGrid();
+  if(ok>0 && fail===0) showToast(`✓ ${ok} photo(s) uploadée(s) !`,'ok');
+  else if(ok>0 && fail>0) showToast(`✓ ${ok} réussie(s), ⚠ ${fail} échouée(s).`,'err');
+  else showToast('⚠ Toutes les photos ont échoué. Réessayez.','err');
+
+  e.target.value='';
+}
 // ══ ADMIN CERTIFICATION ══
 function majCertUI(){
   const checked=document.getElementById('f-certifie').checked;
